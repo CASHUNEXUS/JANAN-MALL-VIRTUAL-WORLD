@@ -1,42 +1,103 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#10151b"><title>JANAN MALL | TABRIZ — Virtual World</title>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#10151b"><title>JANAN MALL | TABRIZ — Virtual World</title>
 <style>
-:root{--gold:#d8b56d;--ink:#10151b;--cream:#eee8dc}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#10151b;color:white;font-family:Inter,Arial,sans-serif}canvas{display:block;width:100%;height:100%;touch-action:none}#brand{position:fixed;top:18px;left:20px;z-index:3;letter-spacing:.18em;font-size:12px;color:#f4e8d0;text-shadow:0 2px 10px #000}#brand b{display:block;font-size:20px;letter-spacing:.22em;color:var(--gold)}#hint{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#10151bdc;border:1px solid #d8b56d88;border-radius:30px;padding:11px 18px;font-size:12px;letter-spacing:.08em;white-space:nowrap;z-index:3}#panel{display:none;position:fixed;inset:0;z-index:5;background:transparent;align-items:flex-start;justify-content:flex-start;padding:82px 18px 18px;pointer-events:none}#card{pointer-events:auto;width:min(340px,100%);background:linear-gradient(145deg,#26303af2,#11171ef2);border:1px solid #d8b56d88;border-radius:18px;padding:20px;box-shadow:0 20px 80px #000}#card h2{color:var(--gold);letter-spacing:.16em;margin:0 0 8px}#card p{color:#c6cbd0;line-height:1.5}#items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.item{background:#ffffff0b;border:1px solid #ffffff20;border-radius:12px;padding:13px}.item strong{display:block;color:#f5e7ca}.item small{color:#c2a66d}button{background:var(--gold);border:0;border-radius:30px;padding:12px 22px;font-weight:700;color:#161616}#start{position:fixed;inset:0;z-index:10;background:radial-gradient(ellipse at 50% 40%,#3d454a,#11171d 65%,#090d12);display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}#start h1{font-size:clamp(32px,8vw,68px);letter-spacing:.18em;color:var(--gold);margin:0}#start p{color:#d8d2c7;letter-spacing:.22em;font-size:11px;margin:14px 0 30px}#start button{padding:15px 34px;letter-spacing:.12em}#controls{position:fixed;right:18px;bottom:22px;z-index:4;display:grid;grid-template-columns:repeat(3,48px);gap:5px;opacity:.8}#controls button{padding:0;width:48px;height:44px;border-radius:12px;background:#202b35dd;color:#f4dfb5;border:1px solid #d8b56d66;font-size:18px;touch-action:none}#controls button:nth-child(1){grid-column:2}#controls button:nth-child(2){grid-column:1;grid-row:2}#controls button:nth-child(3){grid-column:2;grid-row:2}#controls button:nth-child(4){grid-column:3;grid-row:2}#controls button:nth-child(5){grid-column:2;grid-row:3;font-size:11px}#floor{position:fixed;top:18px;right:20px;color:#d7c39c;font-size:10px;letter-spacing:.15em;z-index:3}
-</style></head><body>
-<div id="brand"><b>JANAN MALL</b>TABRIZ · VIRTUAL WORLD</div><div id="floor">GROUND FLOOR · 01</div><canvas id="view"></canvas><div id="hint">WASD / ARROWS TO WALK · APPROACH A STORE TO ENTER</div>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080e18;color:#fff;font-family:Inter,Arial,sans-serif}canvas{display:block;width:100%;height:100%;touch-action:none}
+#brand{position:fixed;top:18px;left:20px;z-index:3;letter-spacing:.2em;font-size:10px;color:#e8d6b2;text-shadow:0 2px 10px #000}#brand b{display:block;font-size:20px;color:#e2bd79;letter-spacing:.22em}
+#floor{position:fixed;top:20px;right:20px;z-index:3;font-size:10px;letter-spacing:.18em;color:#e5d4b4;background:#101a26a8;border:1px solid #d7b97866;border-radius:20px;padding:10px 15px;backdrop-filter:blur(12px)}
+#hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;background:#111c2bcc;border:1px solid #d8b56d88;border-radius:30px;padding:11px 18px;font-size:11px;letter-spacing:.1em;white-space:nowrap;backdrop-filter:blur(12px);max-width:85vw;text-align:center}
+#start{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 38%,#41516a99,#0a101bdc 70%),linear-gradient(120deg,#111d2b,#090d14);padding:24px}
+#start:before{content:"";position:absolute;inset:7%;border:1px solid #d9b97955;border-radius:24px;box-shadow:inset 0 0 90px #8bb9ff18,0 0 70px #8bb9ff14;pointer-events:none}
+#start h1{font-size:clamp(36px,9vw,76px);letter-spacing:.19em;color:#f0d49a;margin:0;text-shadow:0 0 35px #d9b97966}#start p{font-size:11px;letter-spacing:.28em;color:#d5d9e0;margin:16px 0 34px}
+button{border:1px solid #f0d59c;background:linear-gradient(135deg,#e8c98b,#a77e43);color:#11151a;padding:14px 28px;border-radius:28px;font-weight:800;letter-spacing:.12em}
+#controls{position:fixed;right:18px;bottom:18px;z-index:4;display:grid;grid-template-columns:repeat(3,46px);gap:5px}#controls button{width:46px;height:43px;padding:0;border-radius:13px;background:#101b29c9;color:#f1d59a;border:1px solid #d8b56d88;font-size:18px;touch-action:none;backdrop-filter:blur(10px)}#controls button:nth-child(1){grid-column:2}#controls button:nth-child(2){grid-column:1;grid-row:2}#controls button:nth-child(3){grid-column:2;grid-row:2}#controls button:nth-child(4){grid-column:3;grid-row:2}#controls button:nth-child(5){grid-column:2;grid-row:3;font-size:10px}
+#panel{display:none;position:fixed;inset:0;z-index:8;align-items:center;justify-content:center;padding:20px;background:#050a12a8;backdrop-filter:blur(8px)}
+#card{width:min(440px,100%);background:linear-gradient(145deg,#26364aeF,#101923f5);border:1px solid #d8b56d99;border-radius:24px;padding:24px;box-shadow:0 25px 100px #000b}
+#card h2{margin:0;color:#e7c987;letter-spacing:.16em}#card p{color:#d2d8df;line-height:1.6}#items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.item{padding:13px;background:#ffffff0c;border:1px solid #ffffff20;border-radius:13px}.item strong{display:block}.item small{color:#e5c27f}
+@media(max-width:600px){#brand{top:12px;left:13px}#brand b{font-size:16px}#floor{top:12px;right:12px;font-size:8px}#hint{bottom:14px;font-size:9px;padding:9px 12px;left:45%;max-width:65vw;white-space:normal}#controls{right:10px;bottom:10px;transform:scale(.88);transform-origin:bottom right}}
+</style>
+</head>
+<body>
+<div id="brand"><b>JANAN MALL</b>TABRIZ · VIRTUAL WORLD</div><div id="floor">ATRIUM · GROUND FLOOR</div>
+<div id="hint">WASD / ARROWS TO WALK · EXPLORE THE ATRIUM</div>
 <div id="controls"><button data-k="ArrowUp">▲</button><button data-k="ArrowLeft">◀</button><button data-k="ArrowDown">▼</button><button data-k="ArrowRight">▶</button><button id="enterShop">ENTER</button></div>
-<div id="start"><div><h1>JANAN MALL</h1><p>AN IMMERSIVE SHOPPING DESTINATION · TABRIZ</p><button id="begin">ENTER THE MALL</button></div></div>
-<div id="panel"><div id="card"><h2 id="shopName">JANAN BOUTIQUE</h2><p id="shopDesc">Discover the collection.</p><div id="items"></div><button id="leave">← BACK TO THE MALL</button></div></div>
-<script>
-(()=>{const canvas=document.getElementById('view'),ctx=canvas.getContext('2d');let W,H,dpr,active=false,mode='mall',x=0,z=0,keys={},near=null,walk=0;
-const stores=[{x:-2.5,z:5,name:'JANAN BOUTIQUE',desc:'Contemporary fashion and signature collections.',items:[['Evening outfit','₺ 4,900'],['Leather bag','₺ 3,200'],['Signature shoes','₺ 2,750'],['Accessories','₺ 890']]},{x:2.5,z:5,name:'GOLDEN LIVING',desc:'Elegant objects for a beautiful home.',items:[['Table lamp','₺ 1,450'],['Decor vase','₺ 980'],['Art object','₺ 2,100'],['Cushion set','₺ 650']]},{x:-2.5,z:12,name:'TECH AVENUE',desc:'A curated destination for modern technology.',items:[['Headphones','₺ 3,800'],['Smart watch','₺ 5,400'],['Wireless speaker','₺ 2,600'],['Camera','₺ 12,900']]},{x:2.5,z:12,name:'NOIR PERFUMERY',desc:'A world of refined scents.',items:[['Eau de parfum','₺ 2,900'],['Discovery set','₺ 1,250'],['Home fragrance','₺ 1,100'],['Gift set','₺ 3,500']]}];
-function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
-function poly(a,fill,stroke){ctx.beginPath();a.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}}
-function text(t,x,y,size,color,align='center'){ctx.fillStyle=color;ctx.font='600 '+size+'px Arial';ctx.textAlign=align;ctx.fillText(t,x,y)}
-function mall(){let horizon=H*.37,scale=Math.min(W/900,1.25),cx=W/2;let camX=0,camZ=0;
-let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#18232d');sky.addColorStop(.55,'#596068');sky.addColorStop(1,'#1a2025');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
-// grand atrium rear wall and upper galleries
-poly([[cx-440*scale-camX*.25,horizon],[cx+440*scale-camX*.25,horizon],[cx+600*scale-camX*.25,H*.68],[cx-600*scale-camX*.25,H*.68]],'#343d43','#a98b58');
-for(let lev=0;lev<3;lev++){let yy=horizon+lev*H*.105;poly([[cx-440*scale-camX*.25,yy],[cx+440*scale-camX*.25,yy],[cx+510*scale-camX*.25,yy+14],[cx-510*scale-camX*.25,yy+14]],'#b99b68');ctx.fillStyle='#101820';ctx.fillRect(cx-430*scale-camX*.25,yy+14,860*scale,42*scale);for(let i=0;i<7;i++){let sx=cx-390*scale+i*130*scale-camX*.25;ctx.fillStyle=['#6c5140','#263c48','#6a5a49','#34444b'][i%4];ctx.fillRect(sx,yy+20,95*scale,35*scale);ctx.strokeStyle='#d4b77c';ctx.strokeRect(sx,yy+20,95*scale,35*scale)}}
-poly([[0,H*.64],[W,H*.64],[W,H],[0,H]],'#b9ad9a');let floor=ctx.createLinearGradient(0,H*.62,0,H);floor.addColorStop(0,'#756e65');floor.addColorStop(.45,'#c9c0b2');floor.addColorStop(1,'#615d58');ctx.fillStyle=floor;ctx.fillRect(0,H*.64,W,H*.36);
-for(let i=-5;i<=5;i++){ctx.strokeStyle='#e4d9c6aa';ctx.beginPath();ctx.moveTo(cx+i*35*scale-camX,H*.65);ctx.lineTo(cx+i*130*scale-camX,H);ctx.stroke()}for(let j=0;j<5;j++){ctx.strokeStyle='#e4d9c655';ctx.beginPath();ctx.moveTo(0,H*.69+j*j*10);ctx.lineTo(W,H*.69+j*j*10);ctx.stroke()}
-// columns
-for(let side of [-1,1])for(let i=0;i<3;i++){let px=cx+side*(250+i*80)*scale-camX*.7,py=horizon+i*H*.11;ctx.fillStyle='#c8b99e';ctx.fillRect(px-13*scale,py,26*scale,H*.37);ctx.fillStyle='#e0c78e';ctx.fillRect(px-17*scale,py,34*scale,8*scale);ctx.fillStyle='#8d7c63';ctx.fillRect(px-16*scale,py+H*.37,32*scale,9*scale)}
-// chandelier
-for(let i=0;i<3;i++){let yy=H*.2+i*18;ctx.strokeStyle='#d6b779';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,yy);ctx.stroke();ctx.beginPath();ctx.ellipse(cx,yy+8,90-i*18,10,0,0,Math.PI*2);ctx.stroke();for(let a=0;a<8;a++){let q=a*Math.PI/4;ctx.fillStyle='#f6dca1';ctx.beginPath();ctx.arc(cx+Math.cos(q)*(90-i*18),yy+8+Math.sin(q)*7,3,0,Math.PI*2);ctx.fill()}}
-// storefronts in perspective, scroll based on player world coordinates
-stores.forEach((s,i)=>{let sx=cx+s.x*65*scale,sy=H*.52+s.z*4;let width=145*scale,height=100*scale;ctx.save();ctx.shadowColor='#0009';ctx.shadowBlur=18*scale;ctx.shadowOffsetY=8*scale;ctx.fillStyle='#171e25';ctx.fillRect(sx-width/2,sy,width,height);ctx.restore();ctx.fillStyle='#b8955e';ctx.fillRect(sx-width/2,sy,width,7*scale);ctx.fillStyle='#102633';ctx.fillRect(sx-width/2+8,sy+16,width-16,height-25);ctx.fillStyle='#b7d4d833';ctx.fillRect(sx-width/2+12,sy+20,width-24,height-32);ctx.strokeStyle='#d7c092';ctx.lineWidth=2*scale;ctx.strokeRect(sx-width/2+8,sy+16,width-16,height-25);ctx.fillStyle='#d8b56d';ctx.fillRect(sx-width/2,sy-20,width,20);ctx.fillStyle='#f6dfaa';ctx.fillRect(sx-width/2,sy-20,width,2);text(s.name,sx,sy-6,Math.max(8,9*scale),'#1a1a1a');for(let k=0;k<3;k++){ctx.fillStyle=['#bda06c','#687d88','#8e6753'][k];ctx.fillRect(sx-width/2+25+k*35*scale,sy+45,18*scale,30*scale)}});
-// avatar anchored center lower screen
-let ax=cx+x*34*scale,ay=H*.79-z*5;ctx.fillStyle='#1118';ctx.beginPath();ctx.ellipse(ax,ay+26,18,7,0,0,7);ctx.fill();ctx.fillStyle='#222c35';ctx.fillRect(ax-10,ay-5,20,28);ctx.fillStyle='#d7b77d';ctx.beginPath();ctx.arc(ax,ay-14,9,0,7);ctx.fill();ctx.fillStyle='#1a2027';ctx.fillRect(ax-9,ay+20,7,13);ctx.fillRect(ax+2,ay+20,7,13);
-near=stores.find(s=>Math.hypot(s.x-x,s.z-z)<2.1);document.getElementById('hint').textContent=near?'PRESS ENTER / E TO EXPLORE '+near.name:'WASD / ARROWS TO WALK · EXPLORE THE ATRIUM';
+<div id="start"><div><h1>JANAN MALL</h1><p>AN IMMERSIVE LUXURY DESTINATION · TABRIZ</p><button id="begin">ENTER THE MALL</button></div></div>
+<div id="panel"><div id="card"><h2 id="shopName"></h2><p id="shopDesc"></p><div id="items"></div><button id="leave">← BACK TO THE MALL</button></div></div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x9aa9bb);scene.fog=new THREE.Fog(0x9aa9bb,35,95);
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,180);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xdce9ff,0x5a4634,2.0));
+const key=new THREE.DirectionalLight(0xffe1ad,3.0);key.position.set(-12,24,12);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-35;key.shadow.camera.right=35;key.shadow.camera.top=35;key.shadow.camera.bottom=-35;scene.add(key);
+const warm=new THREE.PointLight(0xffc979,85,35);warm.position.set(0,8,0);scene.add(warm);
+const mats={floor:new THREE.MeshStandardMaterial({color:0x777b80,roughness:.24,metalness:.35}),stone:new THREE.MeshStandardMaterial({color:0xe4dfd4,roughness:.45}),gold:new THREE.MeshStandardMaterial({color:0xc9a568,metalness:.72,roughness:.25}),dark:new THREE.MeshStandardMaterial({color:0x17232e,roughness:.28,metalness:.45}),glass:new THREE.MeshPhysicalMaterial({color:0x8bb6cf,metalness:.2,roughness:.08,transparent:true,opacity:.34,transmission:.35}),wood:new THREE.MeshStandardMaterial({color:0x75543b,roughness:.55}),green:new THREE.MeshStandardMaterial({color:0x315d43,roughness:.8}),white:new THREE.MeshStandardMaterial({color:0xf0eee8,roughness:.3})};
+function box(w,h,d,mat,x,y,z,shadow=true){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=shadow;m.receiveShadow=true;scene.add(m);return m}
+function cyl(r1,r2,h,mat,x,y,z,seg=32){const m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,seg),mat);m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m}
+function ring(r,tube,mat,x,y,z){const m=new THREE.Mesh(new THREE.TorusGeometry(r,tube,12,90),mat);m.rotation.x=Math.PI/2;m.position.set(x,y,z);scene.add(m);return m}
+function label(str,x,y,z,size=1){const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.fillStyle='#111923';g.fillRect(0,0,512,128);g.fillStyle='#e7c987';g.font='bold 38px Arial';g.textAlign='center';g.fillText(str,256,79);const tex=new THREE.CanvasTexture(c);const mesh=new THREE.Mesh(new THREE.PlaneGeometry(5.4*size,1.35*size),new THREE.MeshBasicMaterial({map:tex,transparent:true}));mesh.position.set(x,y,z);scene.add(mesh);return mesh}
+// polished stone floor with subtle grid
+box(42,.5,58,mats.floor,0,-.3,5);
+for(let x=-20;x<=20;x+=4)box(.025,.012,56,new THREE.MeshStandardMaterial({color:0xb7b4ae,roughness:.5}),x,-.035,5,false);
+for(let z=-22;z<=32;z+=4)box(42,.012,.025,new THREE.MeshStandardMaterial({color:0xb7b4ae,roughness:.5}),0,-.025,z,false);
+// perimeter walls and glassy upper atrium
+box(42,12,.6,mats.stone,0,6,-24);box(.6,12,58,mats.stone,-21,6,5);box(.6,12,58,mats.stone,21,6,5);
+box(42,.7,1,mats.gold,0,12,-24);
+for(let side of [-1,1]){
+ for(let i=0;i<5;i++){const x=side*(5+i*3.1);box(1.2,10,.9,mats.stone,x,5,-22);box(1.45,.35,1.2,mats.gold,x,10,-22)}
+ // upper galleries and glass rails
+ box(42,.65,7,mats.stone,0,5.2,-9);box(42,.18,.18,mats.gold,0,5.7,-5.5);box(42,.65,7,mats.stone,0,9.4,-9);box(42,.18,.18,mats.gold,0,9.9,-5.5);
+ const rail=box(42,1.05,.12,mats.glass,0,6.05,-5.55,false);box(42,.08,.16,mats.gold,0,6.6,-5.55,false);
+ box(42,1.05,.12,mats.glass,0,10.25,-5.55,false);box(42,.08,.16,mats.gold,0,10.8,-5.55,false);
 }
-function shop(){ctx.fillStyle='#171d22';ctx.fillRect(0,0,W,H);let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#4a4540');g.addColorStop(1,'#171c20');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);poly([[0,H*.65],[W,H*.65],[W,H],[0,H]],'#887d6c');text('JANAN MALL · STORE INTERIOR',W/2,55,13,'#d8b56d');let s=activeStore;for(let side of [-1,1]){let sx=W/2+side*W*.29;ctx.fillStyle='#6c5945';ctx.fillRect(sx-65,H*.25,130,H*.43);ctx.fillStyle='#c7a66c';ctx.fillRect(sx-70,H*.24,140,9);for(let r=0;r<3;r++){ctx.fillStyle='#c4ad89';ctx.fillRect(sx-58,H*.31+r*H*.1,116,4);for(let k=0;k<4;k++){ctx.fillStyle=['#d2b98b','#607987','#8b6152','#a6a09a'][(k+r)%4];ctx.fillRect(sx-50+k*28,H*.27+r*H*.1,18,30)}}}ctx.fillStyle='#332d28';ctx.fillRect(W*.34,H*.68,W*.32,35);ctx.fillStyle='#d8b56d';ctx.fillRect(W*.34,H*.68,W*.32,5);text(s.name,W/2,H*.17,25,'#e2c88f');text('WELCOME · DISCOVER THE COLLECTION',W/2,H*.22,11,'#e7e0d4');text('← BACK TO MALL',W/2,H*.88,13,'#f0d9a8');}
-let activeStore=stores[0];function openStore(s){activeStore=s;mode='shop';document.getElementById('panel').style.display='flex';document.getElementById('shopName').textContent=s.name;document.getElementById('shopDesc').textContent=s.desc;document.getElementById('items').innerHTML=s.items.map(a=>'<div class="item"><strong>'+a[0]+'</strong><small>'+a[1]+'</small></div>').join('');}
-function frame(){ctx.clearRect(0,0,W,H);if(active&&mode==='mall'){let dx=0,dz=0;if(keys.ArrowLeft||keys.a||keys.A)dx-=1;if(keys.ArrowRight||keys.d||keys.D)dx+=1;if(keys.ArrowUp||keys.w||keys.W)dz+=1;if(keys.ArrowDown||keys.s||keys.S)dz-=1;let len=Math.hypot(dx,dz)||1;x=Math.max(-5,Math.min(5,x+dx/len*.075));z=Math.max(-1,Math.min(19,z+dz/len*.11));mall()}else if(mode==='shop')shop();else mall();requestAnimationFrame(frame)}frame();
-document.getElementById('begin').onclick=()=>{active=true;document.getElementById('start').style.display='none'};
-document.getElementById('leave').onclick=()=>{mode='mall';document.getElementById('panel').style.display='none'};
-document.getElementById('enterShop').onclick=()=>{if(near&&mode==='mall')openStore(near)};
-addEventListener('keydown',e=>{keys[e.key]=true;if((e.key==='e'||e.key==='E')&&near&&mode==='mall')openStore(near)});addEventListener('keyup',e=>keys[e.key]=false);
-document.querySelectorAll('#controls button[data-k]').forEach(b=>{let k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
-})();
-</script></body></html>
+// back and side storefronts, lit display windows
+const storeData=[{x:-13,z:-16,name:'JANAN BOUTIQUE',desc:'Contemporary fashion and signature collections.',items:[['Evening outfit','4,900'],['Leather bag','3,200'],['Signature shoes','2,750'],['Accessories','890']]},{x:0,z:-16,name:'GOLDEN LIVING',desc:'Elegant objects for a beautiful home.',items:[['Table lamp','1,450'],['Decor vase','980'],['Art object','2,100'],['Cushion set','650']]},{x:13,z:-16,name:'TECH AVENUE',desc:'A curated destination for modern technology.',items:[['Headphones','3,800'],['Smart watch','5,400'],['Wireless speaker','2,600'],['Camera','12,900']]},{x:-13,z:8,name:'NOIR PERFUMERY',desc:'A world of refined scents.',items:[['Eau de parfum','2,900'],['Discovery set','1,250'],['Home fragrance','1,100'],['Gift set','3,500']]}];
+const storeMeshes=[];
+storeData.forEach((s,i)=>{const group=new THREE.Group();group.position.set(s.x,0,s.z);scene.add(group);const back=new THREE.Mesh(new THREE.BoxGeometry(8,4.6,.35),mats.dark);back.position.set(0,2.3,0);group.add(back);const glass=new THREE.Mesh(new THREE.BoxGeometry(7.7,3.5,.12),mats.glass);glass.position.set(0,2.15,.25);group.add(glass);const top=new THREE.Mesh(new THREE.BoxGeometry(8.4,.35,.7),mats.gold);top.position.set(0,4.7,0);group.add(top);const sign=label(s.name,0,4.85,.42,.7);group.add(sign);for(let k=0;k<3;k++){const shelf=new THREE.Mesh(new THREE.BoxGeometry(1.25,1.5,.65),k%2?mats.wood:mats.stone);shelf.position.set(-2.5+k*2.5,1.0,.5);group.add(shelf);for(let j=0;j<3;j++){const product=new THREE.Mesh(new THREE.BoxGeometry(.42,.6,.38),[mats.gold,mats.green,mats.white][(j+k)%3]);product.position.set(-2.8+k*2.5+j*.28,2.1,.55);group.add(product)}}storeMeshes.push(group)});
+// grand circular skylight and chandelier
+for(let y of [12.8,13.1])ring(6,.16,mats.gold,0,y,-2);
+for(let i=0;i<12;i++){const a=i*Math.PI/6;const l=new THREE.PointLight(0xffd28a,9,13);l.position.set(Math.cos(a)*5,11.8,-2+Math.sin(a)*5);scene.add(l)}
+for(let i=0;i<8;i++){const a=i*Math.PI/4;const p=cyl(.12,.12,1.8,mats.gold,Math.cos(a)*4,11.7,-2+Math.sin(a)*4);p.rotation.z=Math.PI/2}
+cyl(1.1,1.1,.18,mats.gold,0,11.2,-2);cyl(.55,.55,.5,mats.white,0,10.9,-2);
+// central information desk
+cyl(3.5,3.8,.65,mats.stone,0,.35,1,64);cyl(3.45,3.45,.12,mats.gold,0,.72,1,64);cyl(2.4,2.4,.08,mats.dark,0,.82,1,64);label('INFORMATION',0,1.3,1,0.6).rotation.y=0;
+for(let i=0;i<8;i++){const a=i*Math.PI/4;const x=Math.cos(a)*3.2,z=1+Math.sin(a)*3.2;cyl(.08,.08,1.1,mats.gold,x,.9,z,12)}
+// escalators
+function escalator(x,z,dir){const base=box(3,.35,11,mats.dark,x,1.05,z);base.rotation.x=dir*.28;const slope=box(2.5,.16,10,mats.gold,x,1.45,z);slope.rotation.x=dir*.28;for(let i=0;i<13;i++){let st=box(2.25,.08,.48,mats.stone,x,1.5+i*.14,z-4.4+i*.72,false);st.rotation.x=dir*.28}const rail=box(.12,.8,10,mats.glass,x-1.35,1.9,z);rail.rotation.x=dir*.28;const rail2=box(.12,.8,10,mats.glass,x+1.35,1.9,z);rail2.rotation.x=dir*.28;box(.14,.1,10,mats.gold,x-1.35,2.32,z).rotation.x=dir*.28;box(.14,.1,10,mats.gold,x+1.35,2.32,z).rotation.x=dir*.28}
+escalator(-7,-1,-1);escalator(7,-1,1);
+// planters, greenery and benches
+function tree(x,z){cyl(.22,.32,2,mats.wood,x,1,z,12);const crown=new THREE.Mesh(new THREE.SphereGeometry(1.2,14,12),mats.green);crown.position.set(x,2.7,z);crown.castShadow=true;scene.add(crown);cyl(1.25,1.35,.5,mats.dark,x,.15,z,32);cyl(1.18,1.18,.12,mats.stone,x,.43,z,32)}
+[[-17,-1],[17,-1],[-17,14],[17,14],[-10,18],[10,18]].forEach(p=>tree(p[0],p[1]));
+for(let side of [-1,1]){box(4,.55,1.1,mats.wood,side*13,.55,4);box(4,.12,1.2,mats.gold,side*13,.87,4)}
+// ceiling ribs and light strips
+for(let i=-4;i<=4;i++){const rib=box(.16,.18,36,mats.gold,i*4,13.6,-3);rib.material=new THREE.MeshStandardMaterial({color:0x8f9cab,metalness:.7,roughness:.25})}
+const strips=[];for(let x=-16;x<=16;x+=8){const strip=box(.08,.08,30,new THREE.MeshBasicMaterial({color:0x86c9ff}),x,13.45,-2,false);strips.push(strip)}
+// avatar
+const avatar=new THREE.Group();scene.add(avatar);
+const body=new THREE.Mesh(new THREE.CapsuleGeometry(.42,.9,4,8),new THREE.MeshStandardMaterial({color:0x263a50,roughness:.65}));body.position.y=1.25;body.castShadow=true;avatar.add(body);
+const head=new THREE.Mesh(new THREE.SphereGeometry(.3,18,14),new THREE.MeshStandardMaterial({color:0xd6a77f,roughness:.7}));head.position.y=2.05;head.castShadow=true;avatar.add(head);
+const hair=new THREE.Mesh(new THREE.SphereGeometry(.31,16,10,0,Math.PI*2,0,Math.PI*.55),new THREE.MeshStandardMaterial({color:0x30251f}));hair.position.y=2.15;avatar.add(hair);
+for(let side of [-1,1]){const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.13,.55,3,6),new THREE.MeshStandardMaterial({color:0x17202a}));leg.position.set(side*.2,.42,0);leg.castShadow=true;avatar.add(leg)}
+let player={x:0,z:15,rot:Math.PI};avatar.position.set(player.x,0,player.z);
+const keys={};let started=false,shopOpen=false,nearStore=-1;
+function openShop(i){if(i<0)return;shopOpen=true;const s=storeData[i];document.getElementById('shopName').textContent=s.name;document.getElementById('shopDesc').textContent=s.desc;document.getElementById('items').innerHTML=s.items.map(a=>'<div class="item"><strong>'+a[0]+'</strong><small>€ '+a[1]+'</small></div>').join('');document.getElementById('panel').style.display='flex'}
+function closeShop(){shopOpen=false;document.getElementById('panel').style.display='none'}
+document.getElementById('leave').onclick=closeShop;document.getElementById('begin').onclick=()=>{started=true;document.getElementById('start').style.display='none'};
+document.getElementById('enterShop').onclick=()=>openShop(nearStore);
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(e.key==='Enter'||e.key.toLowerCase()==='e')openShop(nearStore)});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k.toLowerCase();b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
+let last=performance.now();
+function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.04);last=now;
+if(started&&!shopOpen){let f=(keys['w']||keys['arrowup']?1:0)-(keys['s']||keys['arrowdown']?1:0);let side=(keys['d']||keys['arrowright']?1:0)-(keys['a']||keys['arrowleft']?1:0);if(f||side){const speed=5.0*dt;const angle=player.rot;player.x+= (Math.sin(angle)*f+Math.cos(angle)*side)*speed;player.z+=(-Math.cos(angle)*f+Math.sin(angle)*side)*speed;player.x=THREE.MathUtils.clamp(player.x,-18,18);player.z=THREE.MathUtils.clamp(player.z,-21,25);avatar.rotation.y=player.rot;body.position.y=1.25+Math.sin(now*.014)*.035}}
+avatar.position.set(player.x,0,player.z);
+const desired=new THREE.Vector3(player.x+Math.sin(player.rot)*8,5.2,player.z+Math.cos(player.rot)*9);camera.position.lerp(desired,.08);camera.lookAt(player.x,1.6,player.z-2.5);
+nearStore=-1;let min=999;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s.x,player.z-s.z);if(d<min){min=d;nearStore=i}});if(min>8)nearStore=-1;
+document.getElementById('hint').textContent=nearStore>=0?'PRESS ENTER TO EXPLORE '+storeData[nearStore].name:'WASD / ARROWS TO WALK · EXPLORE THE ATRIUM';
+renderer.render(scene,camera)}
+camera.position.set(0,6,25);camera.lookAt(0,1,0);requestAnimationFrame(animate);
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight)});
+</script>
+</body></html>
