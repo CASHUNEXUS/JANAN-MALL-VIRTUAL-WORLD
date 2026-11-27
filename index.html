@@ -2,239 +2,161 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#10151b"><title>JANAN MALL | TABRIZ — Virtual World</title>
+<meta name="theme-color" content="#090d16"><title>JANAN MALL · TABRIZ — Virtual World</title>
 <style>
-*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080e18;color:#fff;font-family:Inter,Arial,sans-serif;overscroll-behavior:none}button,#controls,#controls *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}canvas{display:block;width:100%;height:100%;touch-action:none}
-#brand{position:fixed;top:18px;left:20px;z-index:3;letter-spacing:.2em;font-size:10px;color:#e8d6b2;text-shadow:0 2px 10px #000}#brand b{display:block;font-size:20px;color:#e2bd79;letter-spacing:.22em}
-#floor{position:fixed;top:20px;right:20px;z-index:3;font-size:10px;letter-spacing:.18em;color:#e5d4b4;background:#101a26a8;border:1px solid #d7b97866;border-radius:20px;padding:10px 15px;backdrop-filter:blur(12px)}
-#hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;background:#111c2bcc;border:1px solid #d8b56d88;border-radius:30px;padding:11px 18px;font-size:11px;letter-spacing:.1em;white-space:nowrap;backdrop-filter:blur(12px);max-width:85vw;text-align:center}
-#start{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 38%,#41516a99,#0a101bdc 70%),linear-gradient(120deg,#111d2b,#090d14);padding:24px}
-#start:before{content:"";position:absolute;inset:7%;border:1px solid #d9b97955;border-radius:24px;box-shadow:inset 0 0 90px #8bb9ff18,0 0 70px #8bb9ff14;pointer-events:none}
-#start h1{font-size:clamp(36px,9vw,76px);letter-spacing:.19em;color:#f0d49a;margin:0;text-shadow:0 0 35px #d9b97966}#start p{font-size:11px;letter-spacing:.28em;color:#d5d9e0;margin:16px 0 34px}
-button{border:1px solid #f0d59c;background:linear-gradient(135deg,#e8c98b,#a77e43);color:#11151a;padding:14px 28px;border-radius:28px;font-weight:800;letter-spacing:.12em}#start{transition:opacity .2s ease}#begin{position:relative;z-index:2;min-height:50px;min-width:190px;touch-action:manipulation;cursor:pointer;pointer-events:auto}
-#controls{position:fixed;right:18px;bottom:18px;z-index:4;display:grid;grid-template-columns:repeat(3,46px);gap:5px}#controls button{width:46px;height:43px;padding:0;border-radius:13px;background:#101b29c9;color:#f1d59a;border:1px solid #d8b56d88;font-size:18px;touch-action:none;backdrop-filter:blur(10px)}#controls button:nth-child(1){grid-column:2}#controls button:nth-child(2){grid-column:1;grid-row:2}#controls button:nth-child(3){grid-column:2;grid-row:2}#controls button:nth-child(4){grid-column:3;grid-row:2}#controls button:nth-child(5){grid-column:2;grid-row:3;font-size:10px}
-#panel{display:none;position:fixed;inset:0;z-index:8;align-items:center;justify-content:center;padding:20px;background:#050a12a8;backdrop-filter:blur(8px)}
-#card{width:min(440px,100%);background:linear-gradient(145deg,#26364aeF,#101923f5);border:1px solid #d8b56d99;border-radius:24px;padding:24px;box-shadow:0 25px 100px #000b}
-#card h2{margin:0;color:#e7c987;letter-spacing:.16em}#card p{color:#d2d8df;line-height:1.6}#items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.item{padding:13px;background:#ffffff0c;border:1px solid #ffffff20;border-radius:13px}.item strong{display:block}.item small{color:#e5c27f}
-@media(max-width:600px){#brand{top:12px;left:13px}#brand b{font-size:16px}#floor{top:12px;right:12px;font-size:8px}#hint{bottom:14px;font-size:9px;padding:9px 12px;left:45%;max-width:65vw;white-space:normal}#controls{right:10px;bottom:10px;transform:scale(.88);transform-origin:bottom right}}
-
-/* JANAN MALL luxury interface */
-:root{--ice:#b9dfff;--violet:#a88cff;--gold:#e7ca91}
-#brand{padding:12px 16px;border:1px solid #d8c8a044;border-radius:15px;background:linear-gradient(120deg,#0b1424c9,#11182bb0);backdrop-filter:blur(18px);box-shadow:0 10px 40px #0003}
-#brand b{font-size:19px;letter-spacing:.25em}
-#floor{background:linear-gradient(120deg,#101b30c9,#281e40b8);border-color:#a98dff88;box-shadow:0 8px 35px #5d47a633}
-#hint{border-color:#8e8dff99;background:#10182bdc;box-shadow:0 8px 35px #0005}
-#controls button{background:linear-gradient(145deg,#17243bdc,#17152ddc);border-color:#9c8dff99;box-shadow:0 5px 20px #0005}
-#start{background:radial-gradient(ellipse at 50% 35%,#6e5ca955,#18243bdf 42%,#070c18f5 80%),linear-gradient(130deg,#0c1627,#100d20)}
-#start:before{border-color:#a88cff88;box-shadow:inset 0 0 120px #a88cff19,0 0 90px #6c59bd22}
-#start h1{background:linear-gradient(100deg,#fff1cf,#d9baff 55%,#9edaff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 38px #a88cff55}
-#start p{letter-spacing:.22em;line-height:1.9}
-#begin{background:linear-gradient(110deg,#e9d4a5,#c1a0ff,#9bdcff);border:0;box-shadow:0 0 35px #9b83ff55}
-#glassHud{display:none;position:fixed;z-index:3;inset:82px 18px auto;pointer-events:none;justify-content:space-between;align-items:flex-start}
-.hudCard{background:linear-gradient(135deg,#111b2bd9,#201b35c9);border:1px solid #a9a0dc66;border-radius:18px;padding:14px 17px;backdrop-filter:blur(18px);box-shadow:0 12px 40px #0003;color:#f4f0ff}
-.hudEyebrow{font-size:9px;letter-spacing:.22em;color:#b8b5df;margin-bottom:7px}
-.hudTitle{font-size:14px;letter-spacing:.1em}
-.hudSub{font-size:10px;color:#b5c3d4;margin-top:6px;line-height:1.5}
-#aiCard{width:205px}#visitCard{width:190px;text-align:right}
-#dock{display:none;position:fixed;z-index:4;bottom:16px;left:50%;transform:translateX(-50%);gap:7px;padding:8px;border:1px solid #a99ae477;border-radius:22px;background:#10182bd9;backdrop-filter:blur(20px);box-shadow:0 10px 40px #0006}
-#dock button{padding:10px 14px;border:1px solid #9c8dff44;border-radius:14px;background:#ffffff0b;color:#e9e5ff;font-size:9px;letter-spacing:.12em}
-#dock button.active{background:linear-gradient(120deg,#8065bd,#527eaa);color:white}
-#hint{bottom:88px}
-#panel{background:#070b17bb}
-#card{background:linear-gradient(145deg,#1c2940f5,#17142af7);border-color:#a995ff99;box-shadow:0 25px 100px #000c,0 0 50px #7862bd22}
-.item{background:linear-gradient(145deg,#ffffff12,#8f8bff0a);border-color:#a99ae444}
-@media(max-width:700px){#glassHud{inset:72px 10px auto}.hudCard{padding:10px 11px}#aiCard{width:148px}#visitCard{width:130px}.hudTitle{font-size:11px}.hudSub{font-size:9px}#dock{bottom:8px;gap:3px;padding:6px}#dock button{padding:9px 9px;font-size:8px}#hint{bottom:75px;left:42%;max-width:55vw}}
-
-#toast{position:fixed;z-index:20;left:50%;top:18px;transform:translate(-50%,-15px);opacity:0;pointer-events:none;padding:12px 18px;border:1px solid #a88cff99;border-radius:18px;background:#111a2beF;color:#fff;font-size:12px;letter-spacing:.08em;backdrop-filter:blur(18px);transition:.25s}
-#toast.show{opacity:1;transform:translate(-50%,0)}
-#directory{display:none;position:fixed;z-index:9;inset:0;background:#060b16d9;backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:18px}
-#directoryBox{width:min(620px,100%);max-height:82vh;overflow:auto;padding:24px;border:1px solid #a88cff99;border-radius:25px;background:linear-gradient(145deg,#1b2940,#111426);box-shadow:0 25px 90px #000b}
-#directoryBox h2{margin:0 0 6px;color:#ead5ff;letter-spacing:.16em}
-.storeRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px;margin-top:10px;border:1px solid #ffffff22;border-radius:16px;background:#ffffff09}
-.storeRow small{display:block;color:#b8c6da;margin-top:5px}
-.storeRow button,.miniBtn{padding:10px 14px;border-radius:13px;font-size:9px;background:linear-gradient(120deg,#a88cff,#85cfff);border:0;white-space:nowrap}
-#cartPanel{display:none;position:fixed;z-index:11;inset:0;background:#060b16d9;backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:18px}
-#cartBox{width:min(520px,100%);max-height:82vh;overflow:auto;padding:24px;border:1px solid #a88cff99;border-radius:24px;background:linear-gradient(145deg,#1b2940,#111426)}
-.cartLine{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ffffff20;color:#eee}
-#cartCount{color:#c7b5ff}
-#items .item{cursor:pointer;transition:.2s;position:relative;padding:15px 13px 43px}#items .item:active{transform:scale(.97)}
-.item .addItem{position:absolute;left:10px;right:10px;bottom:9px;width:calc(100% - 20px);padding:8px 6px;border:0;border-radius:10px;background:linear-gradient(110deg,#a88cff,#85cfff);color:#111;font-size:9px;font-weight:900;letter-spacing:.1em}
-.storeBeacon{position:fixed;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;color:#fff;background:#10182be8;border:1px solid #a88cffaa;border-radius:16px;padding:9px 14px;font-size:10px;letter-spacing:.13em;box-shadow:0 0 25px #8c70ff55;display:none}
-#shopQuick{display:none;position:fixed;z-index:5;left:50%;bottom:150px;transform:translateX(-50%);padding:13px 22px;border:1px solid #d9c5ff;border-radius:24px;background:linear-gradient(110deg,#a88cff,#85cfff);color:#101321;font-weight:900;box-shadow:0 8px 35px #0008;white-space:nowrap}
-@media(max-width:600px){#shopQuick{bottom:145px}}
-#controls{touch-action:none}
-@media(max-width:600px){#directoryBox,#cartBox{padding:18px}#toast{top:8px;font-size:10px;max-width:90vw;text-align:center}}
+:root{--gold:#d8b777;--ice:#b9dfff;--panel:rgba(9,16,29,.84)}*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#090d16;color:#fff;font-family:Inter,Arial,sans-serif;touch-action:none}canvas{display:block;width:100%;height:100%;touch-action:none}button{font:inherit;color:inherit;border:1px solid #d9bd8066;background:linear-gradient(145deg,#253448dd,#101827ee);border-radius:12px;padding:11px 15px;letter-spacing:.1em;font-size:10px;font-weight:700;cursor:pointer;backdrop-filter:blur(12px)}button:active{transform:scale(.96);background:#b99554;color:#111}
+#brand{position:fixed;z-index:4;top:16px;left:18px;text-shadow:0 2px 12px #000;pointer-events:none;letter-spacing:.22em;font-size:9px;color:#e6d6b8}#brand b{display:block;font-size:19px;color:#e8c98d;letter-spacing:.25em}
+#floor{position:fixed;z-index:4;top:17px;right:17px;padding:9px 13px;border:1px solid #d8bd7955;border-radius:30px;background:#101b2bbd;color:#ead9b9;font-size:9px;letter-spacing:.16em;backdrop-filter:blur(12px)}
+#hint{position:fixed;z-index:4;bottom:86px;left:50%;transform:translateX(-50%);max-width:86vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:10px 16px;border:1px solid #d8bd7966;border-radius:30px;background:#0c1525d9;color:#f2dfba;font-size:10px;letter-spacing:.1em;text-align:center;pointer-events:none}
+#start{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at 50% 35%,#56677a99,#111a2aeF 48%,#070b12 100%);transition:opacity .6s}
+#start:before{content:"";position:absolute;inset:5%;border:1px solid #d8bd7955;border-radius:24px;box-shadow:inset 0 0 100px #8fcfff12,0 0 70px #8fcfff12;pointer-events:none}
+#start .intro{position:relative;max-width:600px}#start .eyebrow{font-size:10px;letter-spacing:.42em;color:#d8bd79}#start h1{font-family:Georgia,serif;font-weight:400;letter-spacing:.16em;font-size:clamp(38px,8vw,76px);margin:18px 0 8px;color:#f3e6cb;text-shadow:0 5px 30px #000}#start p{font-size:11px;letter-spacing:.22em;color:#c1ccda;line-height:2}#begin{margin-top:28px;padding:16px 30px;border-radius:3px;background:linear-gradient(110deg,#b18b4e,#f0d79e,#9b7742);color:#111;border:0;letter-spacing:.22em;font-size:11px;box-shadow:0 8px 35px #d5b87833}
+#controls{position:fixed;z-index:5;left:17px;bottom:18px;display:none;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,45px);gap:5px;touch-action:none}#controls button{padding:0;border-radius:13px;background:#101c2bd9;border-color:#c8d9ed55;font-size:17px}#controls [data-k=ArrowUp]{grid-column:2;grid-row:1}#controls [data-k=ArrowLeft]{grid-column:1;grid-row:2}#controls [data-k=ArrowDown]{grid-column:2;grid-row:2}#controls [data-k=ArrowRight]{grid-column:3;grid-row:2}
+#enterShop{position:fixed;right:18px;bottom:27px;z-index:6;display:none;background:linear-gradient(120deg,#b18b4e,#f0d79e);color:#111;border:0;padding:17px 22px;border-radius:30px;box-shadow:0 6px 30px #d4b77844}
+#dock{position:fixed;z-index:5;display:none;left:50%;transform:translateX(-50%);bottom:16px;gap:6px;padding:6px;border:1px solid #d7c18a44;border-radius:18px;background:#0b1424d9;backdrop-filter:blur(15px)}#dock button{font-size:9px;padding:10px 13px;border:0;background:transparent;color:#d5deea}#dock button.active{background:#c7a66c;color:#111}#dock span{color:#e9c879}
+#glassHud{position:fixed;z-index:4;top:75px;left:18px;display:none;gap:8px;pointer-events:none}.hudCard{padding:10px 13px;border:1px solid #cbb77a44;border-radius:12px;background:#0b1427c9;backdrop-filter:blur(12px);max-width:210px}.hudEyebrow{font-size:8px;letter-spacing:.2em;color:#d7b978}.hudTitle{font-family:Georgia,serif;font-size:14px;margin-top:4px}.hudSub{font-size:9px;line-height:1.6;color:#b6c4d6;margin-top:4px}
+#panel,#directory,#cartPanel{position:fixed;inset:0;z-index:15;display:none;align-items:center;justify-content:center;padding:18px;background:#050914c9;backdrop-filter:blur(15px)}
+#card,#directoryBox,#cartBox{width:min(560px,95vw);max-height:86vh;overflow:auto;border:1px solid #d5b77966;border-radius:20px;background:linear-gradient(145deg,#172438f5,#080f1cf5);padding:24px;box-shadow:0 20px 80px #0009}
+#card h2,#directoryBox h2,#cartBox h2{font-family:Georgia,serif;letter-spacing:.13em;color:#f0d9a9;font-weight:400;font-size:25px;margin:0 0 8px}#shopDesc{font-size:11px;line-height:1.8;color:#bac8d8;margin-bottom:20px}
+.item{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;padding:13px 0;border-bottom:1px solid #ffffff18}.item strong{font-size:12px}.item small{color:#d9bd80}.item button{grid-column:1/-1;justify-self:start;padding:8px 12px;font-size:9px}
+#leave,#closeDirectory,#closeCart{margin-top:20px;width:100%;background:#b99458;color:#111;border:0}
+.storeRow,.cartLine{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #ffffff18}.storeRow strong{font-size:11px;letter-spacing:.1em}.storeRow small{display:block;color:#aebdd0;font-size:10px;line-height:1.6;margin-top:5px}.storeRow button{white-space:nowrap}
+#toast{position:fixed;z-index:30;left:50%;top:72px;transform:translate(-50%,-12px);opacity:0;transition:.25s;padding:11px 17px;border:1px solid #d8bd79;border-radius:30px;background:#111c2b;color:#f1d9a7;font-size:10px;letter-spacing:.12em;pointer-events:none}#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){#glassHud{top:68px}.hudCard{max-width:155px;padding:8px 10px}.hudTitle{font-size:12px}.hudSub{font-size:8px}#hint{bottom:88px;font-size:9px}#dock{bottom:12px}#dock button{padding:10px 9px;font-size:8px}#controls{bottom:14px;left:12px;grid-template-columns:repeat(3,43px);grid-template-rows:repeat(2,41px)}#enterShop{right:12px;bottom:25px;padding:14px 16px}}
 </style>
 </head>
 <body>
-<div id="brand"><b>JANAN MALL</b>TABRIZ · VIRTUAL WORLD</div><div id="floor">ATRIUM · GROUND FLOOR</div>
-<div id="hint">WASD / ARROWS TO WALK · EXPLORE THE ATRIUM</div>
-<div id="controls"><button data-k="ArrowUp">▲</button><button data-k="ArrowLeft">◀</button><button data-k="ArrowDown">▼</button><button data-k="ArrowRight">▶</button><button id="enterShop">ENTER</button></div>
-<div id="start"><div><h1>JANAN MALL</h1><p>AN IMMERSIVE LUXURY DESTINATION · TABRIZ</p><button id="begin">ENTER THE MALL</button></div></div>
-<div id="panel"><div id="card"><h2 id="shopName"></h2><p id="shopDesc"></p><div id="items"></div><button id="leave">← BACK TO THE MALL</button></div></div>
-
-<div id="glassHud">
- <div class="hudCard" id="aiCard"><div class="hudEyebrow">JANAN INTELLIGENCE</div><div class="hudTitle">Your mall, reimagined.</div><div class="hudSub">Explore boutiques, discover collections and step into a new shopping experience.</div></div>
- <div class="hudCard" id="visitCard"><div class="hudEyebrow">YOUR EXPERIENCE</div><div class="hudTitle">GROUND FLOOR · 01</div><div class="hudSub">4 curated destinations<br>Tabriz · Iran</div></div>
-</div>
+<div id="brand"><b>JANAN MALL</b>TABRIZ · VIRTUAL WORLD</div><div id="floor">GROUND FLOOR · ATRIUM</div>
+<div id="glassHud"><div class="hudCard"><div class="hudEyebrow">JANAN EXPERIENCE</div><div class="hudTitle">A world to explore.</div><div class="hudSub">Walk through the atrium and discover every destination.</div></div><div class="hudCard"><div class="hudEyebrow">DESTINATIONS</div><div class="hudTitle">04 SIGNATURE STORES</div><div class="hudSub">Fashion · Living · Technology · Fragrance</div></div></div>
+<div id="hint">WASD / ARROWS TO WALK · DRAG TO LOOK AROUND</div>
+<div id="controls"><button data-k="ArrowUp">▲</button><button data-k="ArrowLeft">◀</button><button data-k="ArrowDown">▼</button><button data-k="ArrowRight">▶</button></div><button id="enterShop">ENTER STORE</button>
 <div id="dock"><button class="active" data-tab="explore">EXPLORE</button><button data-tab="stores">STORES</button><button data-tab="cart">BAG <span id="cartCount">0</span></button><button data-tab="discover">DISCOVER</button></div>
-<div id="toast"></div><button id="shopQuick">OPEN NEARBY STORE</button>
-<div id="directory"><div id="directoryBox"><h2>DISCOVER JANAN</h2><p style="color:#b9c6d9">Explore the destinations inside the mall.</p><div id="storeRows"></div><button id="closeDirectory">CLOSE</button></div></div>
-<div id="cartPanel"><div id="cartBox"><h2 style="color:#ead5ff;letter-spacing:.15em">YOUR SHOPPING BAG</h2><div id="cartLines"></div><p id="cartTotal" style="color:#d9c8ff"></p><p style="color:#aebbd0;font-size:11px">DEMO EXPERIENCE · Checkout is not connected to a payment service.</p><button id="closeCart">CONTINUE EXPLORING</button></div></div>
+<div id="start"><div class="intro"><div class="eyebrow">A NEW LANDMARK · TABRIZ</div><h1>JANAN MALL</h1><p>AN IMMERSIVE LUXURY DESTINATION<br>DISCOVER · EXPERIENCE · ENJOY</p><button id="begin">ENTER THE MALL</button></div></div>
+<div id="panel"><div id="card"><h2 id="shopName"></h2><p id="shopDesc"></p><div id="items"></div><button id="leave">← BACK TO THE MALL</button></div></div>
+<div id="directory"><div id="directoryBox"><h2>DISCOVER JANAN</h2><p style="color:#b9c6d9;font-size:11px">Choose a destination and explore its collection.</p><div id="storeRows"></div><button id="closeDirectory">CLOSE</button></div></div>
+<div id="cartPanel"><div id="cartBox"><h2>YOUR SHOPPING BAG</h2><div id="cartLines"></div><p id="cartTotal" style="color:#d9c8a0"></p><p style="color:#aebbd0;font-size:10px">INTERACTIVE DEMO · No real payment is processed.</p><button id="closeCart">CONTINUE EXPLORING</button></div></div><div id="toast"></div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
 import * as THREE from 'three';
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x9aa9bb);scene.fog=new THREE.Fog(0x9aa9bb,35,95);
-const camera=new THREE.PerspectiveCamera(56,innerWidth/innerHeight,.1,180);
-const isMobile=matchMedia('(max-width: 800px), (pointer: coarse)').matches;
-const renderer=new THREE.WebGLRenderer({antialias:!isMobile,powerPreference:'high-performance',alpha:false,stencil:false,depth:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.05:1.35));renderer.setSize(innerWidth,innerHeight);
-renderer.shadowMap.enabled=false;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.16;renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xdce9ff,0x5a4634,2.0));
-const key=new THREE.DirectionalLight(0xffe1ad,3.0);key.position.set(-12,24,12);key.castShadow=false;scene.add(key);
-const warm=new THREE.PointLight(0xffd9a1,30,34);warm.position.set(0,8,0);scene.add(warm);
-const fill=new THREE.DirectionalLight(0xc5dfff,1.15);fill.position.set(15,10,8);scene.add(fill);
-function makeMarbleTexture(){const c=document.createElement('canvas');c.width=512;c.height=512;const g=c.getContext('2d');const grad=g.createLinearGradient(0,0,512,512);grad.addColorStop(0,'#777b80');grad.addColorStop(.48,'#a4a4a1');grad.addColorStop(1,'#777d83');g.fillStyle=grad;g.fillRect(0,0,512,512);for(let i=0;i<26;i++){g.beginPath();let x=Math.random()*512,y=Math.random()*512;g.moveTo(x,y);for(let j=0;j<5;j++){x+=Math.random()*90-45;y+=Math.random()*90-45;g.lineTo(x,y)}g.strokeStyle=i%3?'rgba(238,235,226,.10)':'rgba(39,47,58,.12)';g.lineWidth=Math.random()*2.2+.35;g.stroke()}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(8,11);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer.capabilities.getMaxAnisotropy();return t}const marbleMap=makeMarbleTexture();
-const mats={floor:new THREE.MeshStandardMaterial({color:0xffffff,map:marbleMap,roughness:.2,metalness:.12}),stone:new THREE.MeshStandardMaterial({color:0xe4dfd4,roughness:.34,metalness:.04}),gold:new THREE.MeshStandardMaterial({color:0xc9a568,metalness:.72,roughness:.25}),dark:new THREE.MeshStandardMaterial({color:0x17232e,roughness:.28,metalness:.45}),glass:new THREE.MeshPhysicalMaterial({color:0x8bb6cf,metalness:.2,roughness:.08,transparent:true,opacity:.34,transmission:.35}),wood:new THREE.MeshStandardMaterial({color:0x75543b,roughness:.55}),green:new THREE.MeshStandardMaterial({color:0x315d43,roughness:.8}),white:new THREE.MeshStandardMaterial({color:0xf0eee8,roughness:.3})};
-function box(w,h,d,mat,x,y,z,shadow=true){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=shadow;m.receiveShadow=true;scene.add(m);return m}
-function cyl(r1,r2,h,mat,x,y,z,seg=32){const m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,seg),mat);m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m}
-function ring(r,tube,mat,x,y,z){const m=new THREE.Mesh(new THREE.TorusGeometry(r,tube,12,90),mat);m.rotation.x=Math.PI/2;m.position.set(x,y,z);scene.add(m);return m}
-function label(str,x,y,z,size=1){const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.fillStyle='#111923';g.fillRect(0,0,512,128);g.fillStyle='#e7c987';g.font='bold 38px Arial';g.textAlign='center';g.fillText(str,256,79);const tex=new THREE.CanvasTexture(c);const mesh=new THREE.Mesh(new THREE.PlaneGeometry(5.4*size,1.35*size),new THREE.MeshBasicMaterial({map:tex,transparent:true}));mesh.position.set(x,y,z);scene.add(mesh);return mesh}
-// polished stone floor with subtle grid
-box(42,.5,58,mats.floor,0,-.3,5);
-for(let x=-20;x<=20;x+=4)box(.018,.008,56,new THREE.MeshStandardMaterial({color:0x555d68,roughness:.7}),x,-.035,5,false);
-for(let z=-22;z<=32;z+=4)box(42,.008,.018,new THREE.MeshStandardMaterial({color:0x555d68,roughness:.7}),0,-.025,z,false);
-// perimeter walls and glassy upper atrium
-box(42,12,.6,mats.stone,0,6,-24);box(.6,12,58,mats.stone,-21,6,5);box(.6,12,58,mats.stone,21,6,5);
-box(42,.7,1,mats.gold,0,12,-24);
-for(let side of [-1,1]){
- for(let i=0;i<5;i++){const x=side*(5+i*3.1);box(1.2,10,.9,mats.stone,x,5,-22);box(1.45,.35,1.2,mats.gold,x,10,-22)}
- // upper galleries and glass rails
- box(42,.65,7,mats.stone,0,5.2,-9);box(42,.18,.18,mats.gold,0,5.7,-5.5);box(42,.65,7,mats.stone,0,9.4,-9);box(42,.18,.18,mats.gold,0,9.9,-5.5);
- const rail=box(42,1.05,.12,mats.glass,0,6.05,-5.55,false);box(42,.08,.16,mats.gold,0,6.6,-5.55,false);
- box(42,1.05,.12,mats.glass,0,10.25,-5.55,false);box(42,.08,.16,mats.gold,0,10.8,-5.55,false);
-}
-// back and side storefronts, lit display windows
-const storeData=[{x:-9,z:1,name:'JANAN BOUTIQUE',desc:'Contemporary fashion and signature collections.',items:[['Evening outfit','4,900'],['Leather bag','3,200'],['Signature shoes','2,750'],['Accessories','890']]},{x:-3,z:-8,name:'GOLDEN LIVING',desc:'Elegant objects for a beautiful home.',items:[['Table lamp','1,450'],['Decor vase','980'],['Art object','2,100'],['Cushion set','650']]},{x:3,z:-8,name:'TECH AVENUE',desc:'A curated destination for modern technology.',items:[['Headphones','3,800'],['Smart watch','5,400'],['Wireless speaker','2,600'],['Camera','12,900']]},{x:9,z:1,name:'NOIR PERFUMERY',desc:'A world of refined scents.',items:[['Eau de parfum','2,900'],['Discovery set','1,250'],['Home fragrance','1,100'],['Gift set','3,500']]}];
-const storeMeshes=[];
-storeData.forEach((s,i)=>{const group=new THREE.Group();group.position.set(s.x,0,s.z);scene.add(group);const back=new THREE.Mesh(new THREE.BoxGeometry(8,4.6,.35),mats.dark);back.position.set(0,2.3,0);group.add(back);const glass=new THREE.Mesh(new THREE.BoxGeometry(7.7,3.5,.12),mats.glass);glass.position.set(0,2.15,.25);group.add(glass);const top=new THREE.Mesh(new THREE.BoxGeometry(8.4,.35,.7),mats.gold);top.position.set(0,4.7,0);group.add(top);const sign=label(s.name,0,4.85,.42,.7);group.add(sign);for(let k=0;k<3;k++){const shelf=new THREE.Mesh(new THREE.BoxGeometry(1.25,1.5,.65),k%2?mats.wood:mats.stone);shelf.position.set(-2.5+k*2.5,1.0,.5);group.add(shelf);for(let j=0;j<3;j++){const product=new THREE.Mesh(new THREE.BoxGeometry(.42,.6,.38),[mats.gold,mats.green,mats.white][(j+k)%3]);product.position.set(-2.8+k*2.5+j*.28,2.1,.55);group.add(product)}}for(let k=-3;k<=3;k++){const mullion=new THREE.Mesh(new THREE.BoxGeometry(.045,3.5,.08),mats.gold);mullion.position.set(k*1.1,2.15,.34);group.add(mullion)}storeMeshes.push(group)});
-// grand circular skylight and chandelier
-for(let y of [12.8,13.1])ring(6,.16,mats.gold,0,y,-2);
-for(let i=0;i<4;i++){const a=i*Math.PI/2;const l=new THREE.PointLight(0xffd28a,3.5,10);l.position.set(Math.cos(a)*5,11.8,-2+Math.sin(a)*5);scene.add(l)}
-for(let i=0;i<8;i++){const a=i*Math.PI/4;const p=cyl(.12,.12,1.8,mats.gold,Math.cos(a)*4,11.7,-2+Math.sin(a)*4);p.rotation.z=Math.PI/2}
-cyl(1.1,1.1,.18,mats.gold,0,11.2,-2);cyl(.55,.55,.5,mats.white,0,10.9,-2);
-// central information desk
-cyl(3.5,3.8,.65,mats.stone,0,.35,1,64);cyl(3.45,3.45,.12,mats.gold,0,.72,1,64);cyl(2.4,2.4,.08,mats.dark,0,.82,1,64);label('INFORMATION',0,1.3,1,0.6).rotation.y=0;
-for(let i=0;i<8;i++){const a=i*Math.PI/4;const x=Math.cos(a)*3.2,z=1+Math.sin(a)*3.2;cyl(.08,.08,1.1,mats.gold,x,.9,z,12)}
-// escalators
-function escalator(x,z,dir){const base=box(3,.35,11,mats.dark,x,1.05,z);base.rotation.x=dir*.28;const slope=box(2.5,.16,10,mats.gold,x,1.45,z);slope.rotation.x=dir*.28;for(let i=0;i<13;i++){let st=box(2.25,.08,.48,mats.stone,x,1.5+i*.14,z-4.4+i*.72,false);st.rotation.x=dir*.28}const rail=box(.12,.8,10,mats.glass,x-1.35,1.9,z);rail.rotation.x=dir*.28;const rail2=box(.12,.8,10,mats.glass,x+1.35,1.9,z);rail2.rotation.x=dir*.28;box(.14,.1,10,mats.gold,x-1.35,2.32,z).rotation.x=dir*.28;box(.14,.1,10,mats.gold,x+1.35,2.32,z).rotation.x=dir*.28}
-// Place the escalators so they physically connect the ground floor to the upper gallery.
-escalator(-7,-9,-1);escalator(7,-9,1);
-// planters, greenery and benches
-function tree(x,z){cyl(.22,.32,2,mats.wood,x,1,z,12);const crown=new THREE.Mesh(new THREE.SphereGeometry(1.2,14,12),mats.green);crown.position.set(x,2.7,z);crown.castShadow=true;scene.add(crown);cyl(1.25,1.35,.5,mats.dark,x,.15,z,32);cyl(1.18,1.18,.12,mats.stone,x,.43,z,32)}
-[[-17,-1],[17,-1],[-17,14],[17,14],[-10,18],[10,18]].forEach(p=>tree(p[0],p[1]));
-for(let side of [-1,1]){box(4,.55,1.1,mats.wood,side*13,.55,4);box(4,.12,1.2,mats.gold,side*13,.87,4)}
-// ceiling ribs and light strips
-for(let i=-4;i<=4;i++){const rib=box(.24,.22,36,mats.gold,i*4,13.6,-3);rib.material=new THREE.MeshStandardMaterial({color:0x9ca9b8,metalness:.55,roughness:.3})}
-// architectural ceiling coffers and recessed light panels
-for(let x=-16;x<=16;x+=8){for(let z=-17;z<=11;z+=7){box(5.8,.12,5.2,mats.dark,x,13.25,z,false);box(5.35,.035,4.75,new THREE.MeshBasicMaterial({color:0xc7dfff}),x,13.17,z,false)}}
-const strips=[];for(let x=-16;x<=16;x+=8){const strip=box(.08,.08,30,new THREE.MeshBasicMaterial({color:0x86c9ff}),x,13.45,-2,false);strips.push(strip)}
-
-// Signature JANAN architecture: illuminated atrium, layered galleries and premium details
-const neonViolet=new THREE.MeshStandardMaterial({color:0x9c79ff,emissive:0x6740d9,emissiveIntensity:2.2,metalness:.25,roughness:.2});
-const neonBlue=new THREE.MeshStandardMaterial({color:0x8ddcff,emissive:0x328dce,emissiveIntensity:1.7});
-const paleStone=new THREE.MeshStandardMaterial({color:0xf1eee9,roughness:.27,metalness:.08});
-const midnight=new THREE.MeshStandardMaterial({color:0x10182a,roughness:.3,metalness:.45});
-function torusAt(radius,tube,y,mat){const q=new THREE.Mesh(new THREE.TorusGeometry(radius,tube,16,160),mat);q.rotation.x=Math.PI/2;q.position.set(0,y,-2);q.castShadow=true;scene.add(q);return q}
-torusAt(10,.16,13.25,neonViolet);torusAt(8.3,.09,13.3,neonBlue);torusAt(6.6,.12,13.35,mats.gold);
-for(let i=0;i<16;i++){const a=i*Math.PI/8;const beam=box(.10,7,.10,i%2?neonViolet:neonBlue,Math.cos(a)*9.4,9.7,-2+Math.sin(a)*9.4,false);beam.rotation.y=-a}
-const skylight=new THREE.Mesh(new THREE.CircleGeometry(5.7,96),new THREE.MeshBasicMaterial({color:0x26324b,transparent:true,opacity:.45,side:THREE.DoubleSide}));
-skylight.rotation.x=-Math.PI/2;skylight.position.set(0,13.0,-2);scene.add(skylight);
-for(let x=-18;x<=18;x+=6){box(.24,8,.32,paleStone,x,8,-23.1);box(.42,.14,.5,neonViolet,x,11.9,-23.1,false)}
-// Curved balcony fascia and luminous edge bands
-for(const y of [5.05,9.25]){const arc=new THREE.Mesh(new THREE.CylinderGeometry(18.7,18.7,.16,96,1,true,Math.PI*.12,Math.PI*.76),neonViolet);arc.position.set(0,y,-8);arc.rotation.y=Math.PI;scene.add(arc)}
-// premium storefront portals, mullions, display plinths and spotlights
-storeData.forEach((s,i)=>{
- const g=storeMeshes[i];
- for(const x of [-3.9,3.9]){const pillar=new THREE.Mesh(new THREE.BoxGeometry(.22,4.55,.5),paleStone);pillar.position.set(x,2.3,.34);g.add(pillar);const trim=new THREE.Mesh(new THREE.BoxGeometry(.3,.12,.58),neonViolet);trim.position.set(x,4.48,.35);g.add(trim)}
- const sill=new THREE.Mesh(new THREE.BoxGeometry(8.1,.18,.55),mats.gold);sill.position.set(0,.12,.35);g.add(sill);
- for(let k=-1;k<=1;k++){const glow=new THREE.Mesh(new THREE.BoxGeometry(1.5,.035,.035),neonBlue);glow.position.set(k*2.4,3.9,.7);g.add(glow)}
- const plinth=new THREE.Mesh(new THREE.BoxGeometry(7.5,.08,1.1),neonBlue);plinth.position.set(0,.08,1.15);g.add(plinth);
-});
-// glass balustrade highlights and floor inlay rings around the concierge
-for(let r of [4.1,4.35]){const rr=new THREE.Mesh(new THREE.TorusGeometry(r,.045,8,96),r===4.1?neonBlue:neonViolet);rr.rotation.x=Math.PI/2;rr.position.set(0,.02,1);scene.add(rr)}
-// luminous wayfinding pylons
-for(const x of [-15,15]){box(1.1,3.6,.35,midnight,x,1.8,-2);box(.07,2.8,.08,neonViolet,x,1.8,-1.78);box(.82,.08,.42,mats.gold,x,3.55,-2)}
-
-// avatar — clearer, human-shaped visitor character
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x9eafc0);scene.fog=new THREE.Fog(0x9eafc0,38,100);
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,180);
+const mobile=matchMedia('(pointer:coarse)').matches||innerWidth<800;
+const renderer=new THREE.WebGLRenderer({antialias:!mobile,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,mobile?1.25:1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=!mobile;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xe8f1ff,0x65513d,2.1));
+const sun=new THREE.DirectionalLight(0xffe4bd,2.8);sun.position.set(-15,28,18);sun.castShadow=!mobile;if(!mobile){sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-30;sun.shadow.camera.right=30;sun.shadow.camera.top=30;sun.shadow.camera.bottom=-30}scene.add(sun);
+const fill=new THREE.DirectionalLight(0xa9d8ff,1.2);fill.position.set(18,12,-10);scene.add(fill);
+const gold=new THREE.MeshStandardMaterial({color:0xc9a96e,metalness:.72,roughness:.24});
+const goldLight=new THREE.MeshStandardMaterial({color:0xf1d9a2,metalness:.55,roughness:.22,emissive:0x493314,emissiveIntensity:.22});
+const ivory=new THREE.MeshStandardMaterial({color:0xe8e3d9,roughness:.34});
+const marble=new THREE.MeshStandardMaterial({color:0xc8c6c1,roughness:.22,metalness:.1});
+const dark=new THREE.MeshStandardMaterial({color:0x111b2a,roughness:.3,metalness:.48});
+const glass=new THREE.MeshPhysicalMaterial({color:0x9ac8e2,metalness:.15,roughness:.08,transparent:true,opacity:.3,transmission:.25,side:THREE.DoubleSide});
+const wood=new THREE.MeshStandardMaterial({color:0x654733,roughness:.55});
+const green=new THREE.MeshStandardMaterial({color:0x285b40,roughness:.82});
+const white=new THREE.MeshStandardMaterial({color:0xf5f1e8,roughness:.3});
+const blueGlow=new THREE.MeshStandardMaterial({color:0x8fdcff,emissive:0x2789c9,emissiveIntensity:2.2,metalness:.2,roughness:.25});
+const violetGlow=new THREE.MeshStandardMaterial({color:0xb49aff,emissive:0x6740d9,emissiveIntensity:2.1,metalness:.2,roughness:.22});
+function addBox(parent,w,h,d,mat,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+function addCyl(parent,rt,rb,h,mat,x,y,z,n=32){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,n),mat);m.position.set(x,y,z);m.castShadow=true;parent.add(m);return m}
+function addRing(parent,r,tube,mat,x,y,z){const m=new THREE.Mesh(new THREE.TorusGeometry(r,tube,12,100),mat);m.rotation.x=Math.PI/2;m.position.set(x,y,z);parent.add(m);return m}
+function makeLabel(txt,w=512,h=128){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.clearRect(0,0,w,h);g.fillStyle='#101a29';g.fillRect(0,0,w,h);g.strokeStyle='#d5b878';g.lineWidth=5;g.strokeRect(5,5,w-10,h-10);g.fillStyle='#f0d9a8';g.font='bold 38px Georgia';g.textAlign='center';g.textBaseline='middle';g.fillText(txt,w/2,h/2);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function sign(parent,txt,x,y,z,w=5.5,h=1.2){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:makeLabel(txt),transparent:true}));m.position.set(x,y,z);parent.add(m);return m}
+function marbleTexture(){const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');g.fillStyle='#c7c5c0';g.fillRect(0,0,512,512);for(let i=0;i<42;i++){g.beginPath();let x=Math.random()*512,y=Math.random()*512;g.moveTo(x,y);for(let j=0;j<8;j++){x+=Math.random()*55-27;y+=Math.random()*55-27;g.lineTo(x,y)}g.strokeStyle=i%3?'rgba(255,255,255,.18)':'rgba(70,78,89,.12)';g.lineWidth=Math.random()*2+.4;g.stroke()}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(9,12);t.colorSpace=THREE.SRGBColorSpace;return t}
+const floorMat=new THREE.MeshStandardMaterial({map:marbleTexture(),color:0xffffff,roughness:.2,metalness:.08});
+addBox(scene,46,.55,62,floorMat,0,-.3,5);
+for(let x=-22;x<=22;x+=4)addBox(scene,.018,.012,61,new THREE.MeshBasicMaterial({color:0x7e858d,transparent:true,opacity:.16}),x,-.018,5);
+for(let z=-25;z<=35;z+=4)addBox(scene,46,.012,.018,new THREE.MeshBasicMaterial({color:0x7e858d,transparent:true,opacity:.16}),0,-.018,z);
+// Grand architectural shell
+addBox(scene,46,15,.8,ivory,0,7.2,-25);addBox(scene,.8,15,62,ivory,-23,7,5);addBox(scene,.8,15,62,ivory,23,7,5);
+addBox(scene,46,.6,.8,gold,0,14.6,-25);
+for(const side of [-1,1])for(let z=-21;z<=25;z+=8){addBox(scene,.85,12,.95,ivory,side*22.1,6,z);addBox(scene,1.15,.18,1.1,gold,side*22.1,11.9,z)}
+// Upper gallery deck and balcony
+addBox(scene,43,.7,13,ivory,0,5.15,-10);addBox(scene,43,.18,.22,gold,0,5.55,-3.55);
+addBox(scene,43,.18,.22,gold,0,5.55,-16.45);
+addBox(scene,43,1.1,.15,glass,0,5.95,-3.6);addBox(scene,43,.08,.2,gold,0,6.52,-3.6);
+addBox(scene,43,1.1,.15,glass,0,5.95,-16.4);addBox(scene,43,.08,.2,gold,0,6.52,-16.4);
+// escalator ramps on both sides; actual walkable inclined planes
+function ramp(x){const group=new THREE.Group();group.position.set(x,0,-10);scene.add(group);const slope=addBox(group,3.4,.25,12,dark,0,2.55,0);slope.rotation.x=-Math.atan(5.1/12);const deck=addBox(group,2.65,.12,11.7,gold,0,2.68,0);deck.rotation.x=-Math.atan(5.1/12);for(let i=0;i<18;i++){const z=-5.5+i*.65;const y=5.1*(i/17);addBox(group,2.35,.11,.42,ivory,0,y+.1,z)}for(const sx of [-1,1]){const rail=addBox(group,.13,.8,12,glass,sx*1.55,3.15,0);rail.rotation.x=-Math.atan(5.1/12);const cap=addBox(group,.16,.1,12,gold,sx*1.55,3.62,0);cap.rotation.x=-Math.atan(5.1/12)}return group}
+ramp(-15);ramp(15);
+// Atrium ceiling ribs, skylight and chandelier
+for(let z=-22;z<=16;z+=4){addBox(scene,44,.22,.28,gold,0,14.1,z);addBox(scene,44,.045,.06,blueGlow,0,13.94,z)}
+const skylight=new THREE.Mesh(new THREE.CircleGeometry(7.4,96),new THREE.MeshBasicMaterial({color:0x8297b0,transparent:true,opacity:.55,side:THREE.DoubleSide}));skylight.rotation.x=-Math.PI/2;skylight.position.set(0,14.02,-6);scene.add(skylight);
+for(const r of [8.5,7.6,6.4])addRing(scene,r,.13,r===7.6?violetGlow:goldLight,0,14.12,-6);
+for(let i=0;i<12;i++){const a=i*Math.PI/6;const rod=addBox(scene,.09,6,.09,i%2?blueGlow:gold,Math.cos(a)*8,10.7,-6+Math.sin(a)*8);rod.rotation.z=Math.cos(a)*.35}
+addCyl(scene,1.5,1.9,.35,gold,0,10.6,-6);addCyl(scene,.8,1.2,.5,white,0,10.2,-6);
+for(let i=0;i<8;i++){const a=i*Math.PI/4;const bulb=new THREE.PointLight(0xffd99b,2.2,14);bulb.position.set(Math.cos(a)*5,10,-6+Math.sin(a)*5);scene.add(bulb)}
+// Storefronts: each has its own portal, display glass, shelves, lit merchandise and sign
+const storeData=[
+{x:-14,z:-14,side:'left',name:'JANAN BOUTIQUE',desc:'Contemporary fashion, statement pieces and signature accessories.',color:0x8f5e72,items:[['Evening outfit','4,900'],['Leather bag','3,200'],['Signature shoes','2,750'],['Accessories','890']]},
+{x:14,z:-14,side:'right',name:'GOLDEN LIVING',desc:'Elegant furniture, lighting and objects for a beautiful home.',color:0xb58b55,items:[['Table lamp','1,450'],['Decor vase','980'],['Art object','2,100'],['Cushion set','650']]},
+{x:-14,z:7,side:'left',name:'TECH AVENUE',desc:'A curated destination for modern technology and connected living.',color:0x5387aa,items:[['Headphones','3,800'],['Smart watch','5,400'],['Wireless speaker','2,600'],['Camera','12,900']]},
+{x:14,z:7,side:'right',name:'NOIR PERFUMERY',desc:'A world of refined scents, discovery sets and home fragrance.',color:0x9873a7,items:[['Eau de parfum','2,900'],['Discovery set','1,250'],['Home fragrance','1,100'],['Gift set','3,500']]}
+];
+const storeGroups=[];
+function createStore(s,index){const g=new THREE.Group();g.position.set(s.x,0,s.z);scene.add(g);const left=s.side==='left';const frontX=left?4.1:-4.1;const backX=left?-4.1:4.1;
+addBox(g,8.2,5.2,.35,dark,0,2.6,0);addBox(g,.32,5.2,8,ivory,backX,2.6,3.7);addBox(g,8.2,.28,8,wood,0,.14,3.8);
+addBox(g,8.5,.38,.7,gold,0,5.1,0);addBox(g,.35,5.1,.5,ivory,frontX,2.55,0);
+const windowPane=addBox(g,7.5,3.9,.12,glass,0,2.75,.24);
+for(let x=-3.5;x<=3.5;x+=1.75)addBox(g,.055,4,.12,gold,x,2.75,.32);
+addBox(g,7.7,.14,.2,gold,0,.22,.3);sign(g,s.name,0,4.45,.42,6.4,1.05);
+for(let j=0;j<3;j++){const xx=-2.7+j*2.7;addBox(g,1.5,.18,2.1,dark,xx,.35,2.6);addBox(g,1.25,.16,1.85,gold,xx,.52,2.6);for(let k=0;k<3;k++){const h=.65+(k%2)*.3;const obj=addBox(g,.42,h,.42,[white,goldLight,new THREE.MeshStandardMaterial({color:s.color,roughness:.4})][(j+k)%3],xx-.45+k*.45,1.0+h/2,2.5);if(index===0){const hanger=new THREE.Mesh(new THREE.TorusGeometry(.2,.035,8,20),gold);hanger.position.set(xx-.45+k*.45,2.0,2.45);g.add(hanger)}}}
+for(let x=-2.6;x<=2.6;x+=2.6){const spot=new THREE.SpotLight(0xffe0ad,22,9,.55,.5,1);spot.position.set(x,4.6,1.8);spot.target.position.set(x,1,3);g.add(spot);g.add(spot.target)}
+const fascia=addBox(g,8.6,.12,.9,index%2?violetGlow:blueGlow,0,5.34,-.08);fascia.position.z=-.08;
+storeGroups.push(g)}
+storeData.forEach(createStore);
+// concierge island and premium details
+addCyl(scene,3.3,3.7,.55,ivory,0,.35,0,64);addCyl(scene,3.25,3.25,.13,gold,0,.7,0,64);addCyl(scene,2.25,2.25,.09,dark,0,.82,0,64);addRing(scene,3.9,.045,blueGlow,0,.02,0);
+const desk=addBox(scene,3.4,1.15,1.1,dark,0,1.35,0);addBox(scene,3.2,.08,1.18,gold,0,1.96,0);sign(scene,'INFORMATION',0,2.15,-.57,3.2,.7);
+function planter(x,z){addCyl(scene,1.2,1.35,.55,dark,x,.2,z);addCyl(scene,1.12,1.15,.12,ivory,x,.52,z);addCyl(scene,.18,.25,1.8,wood,x,1.45,z,12);for(let i=0;i<7;i++){const a=i*Math.PI*2/7;const leaf=new THREE.Mesh(new THREE.SphereGeometry(.65,12,10),green);leaf.scale.set(.65,1.25,.55);leaf.position.set(x+Math.cos(a)*.55,2.55+Math.sin(i)*.2,z+Math.sin(a)*.55);leaf.castShadow=true;scene.add(leaf)}}
+[[-20,-4],[20,-4],[-20,18],[20,18],[-8,22],[8,22],[-8,-21],[8,-21]].forEach(p=>planter(p[0],p[1]));
+for(const side of [-1,1]){for(const z of [-1,15]){addBox(scene,4,.55,1.1,wood,side*19,.55,z);addBox(scene,4.1,.1,1.2,gold,side*19,.85,z)}}
+for(let x=-20;x<=20;x+=5){addBox(scene,.12,7,.18,ivory,x,8,-24.2);addBox(scene,.3,.12,.3,gold,x,11.4,-24.2)}
+// Upper-level boutiques and balcony accents
+for(const side of [-1,1]){for(let z=-13;z<=-7;z+=3){addBox(scene,5,.12,2,wood,side*18.5,5.65,z);addBox(scene,5,.06,.08,blueGlow,side*18.5,5.75,z+1)}} 
+// Character with articulated limbs
 const avatar=new THREE.Group();scene.add(avatar);
-const skin=new THREE.MeshStandardMaterial({color:0xc98f68,roughness:.78});
-const jacket=new THREE.MeshStandardMaterial({color:0x253d59,roughness:.72});
-const jacketTrim=new THREE.MeshStandardMaterial({color:0xb9a0e8,roughness:.55});
-const trousers=new THREE.MeshStandardMaterial({color:0x202936,roughness:.8});
-const shoes=new THREE.MeshStandardMaterial({color:0x111820,roughness:.6});
-const hairMat=new THREE.MeshStandardMaterial({color:0x29221f,roughness:.9});
-const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.34,.62,5,12),jacket);torso.position.y=1.28;torso.scale.set(1.12,1,.72);torso.castShadow=true;avatar.add(torso);
-const neck=new THREE.Mesh(new THREE.CylinderGeometry(.105,.12,.22,12),skin);neck.position.y=1.78;avatar.add(neck);
-const head=new THREE.Mesh(new THREE.SphereGeometry(.255,20,16),skin);head.position.set(0,2.03,0);head.scale.set(.92,1.12,.9);head.castShadow=true;avatar.add(head);
-const hair=new THREE.Mesh(new THREE.SphereGeometry(.265,18,12,0,Math.PI*2,0,Math.PI*.48),hairMat);hair.position.set(0,2.13,.015);avatar.add(hair);
-const fringe=new THREE.Mesh(new THREE.SphereGeometry(.19,16,10,0,Math.PI,0,Math.PI*.42),hairMat);fringe.position.set(0,2.12,-.17);fringe.rotation.x=-.15;avatar.add(fringe);
-// subtle face details, facing the direction of travel (-Z)
-for(const sx of [-1,1]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.022,8,8),new THREE.MeshBasicMaterial({color:0x241b18}));eye.position.set(sx*.085,2.045,-.225);avatar.add(eye)}
-const armParts=[];
-for(const sx of [-1,1]){
- const shoulder=new THREE.Mesh(new THREE.SphereGeometry(.17,12,10),jacket);shoulder.position.set(sx*.34,1.52,0);avatar.add(shoulder);
- const arm=new THREE.Mesh(new THREE.CapsuleGeometry(.105,.48,4,8),jacket);arm.position.set(sx*.43,1.22,0);arm.rotation.z=-sx*.12;arm.castShadow=true;avatar.add(arm);armParts.push(arm);
- const hand=new THREE.Mesh(new THREE.SphereGeometry(.095,10,8),skin);hand.position.set(sx*.46,.91,-.015);avatar.add(hand);
- const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.125,.48,4,8),trousers);leg.position.set(sx*.16,.48,0);leg.castShadow=true;avatar.add(leg);
- const shoe=new THREE.Mesh(new THREE.BoxGeometry(.23,.13,.38),shoes);shoe.position.set(sx*.16,.12,-.07);shoe.castShadow=true;avatar.add(shoe);
-}
-const zipper=new THREE.Mesh(new THREE.BoxGeometry(.018,.52,.012),jacketTrim);zipper.position.set(0,1.29,-.247);avatar.add(zipper);
-let player={x:0,y:0,z:17,rot:0};avatar.position.set(player.x,player.y,player.z);
-const keys={};let started=false,shopOpen=false,nearStore=-1;
-function openShop(i){if(i<0)return;shopOpen=true;const s=storeData[i];document.getElementById('shopName').textContent=s.name;document.getElementById('shopDesc').textContent=s.desc+' · Tap ADD TO BAG to select an item.';document.getElementById('items').innerHTML=s.items.map(a=>'<div class="item"><strong>'+a[0]+'</strong><small>€ '+a[1]+'</small><button class="addItem">＋ ADD TO BAG</button></div>').join('');document.getElementById('panel').style.display='flex';document.querySelectorAll('#items .item').forEach((el,j)=>{el.querySelector('.addItem').onclick=()=>{const item=s.items[j];bag.push({name:item[0],price:item[1],store:s.name});renderBag();notify(item[0]+' added to your bag')}})}
+const skin=new THREE.MeshStandardMaterial({color:0xc98f70,roughness:.78}),hairMat=new THREE.MeshStandardMaterial({color:0x201b1a,roughness:.9}),coat=new THREE.MeshStandardMaterial({color:0x243d59,roughness:.65}),pants=new THREE.MeshStandardMaterial({color:0x202a37,roughness:.8}),shoeMat=new THREE.MeshStandardMaterial({color:0x101722,roughness:.55});
+const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.32,.58,5,12),coat);torso.position.y=1.28;torso.scale.set(1.1,1,.75);avatar.add(torso);
+const head=new THREE.Mesh(new THREE.SphereGeometry(.25,20,16),skin);head.position.y=2.02;head.scale.set(.95,1.12,.9);avatar.add(head);
+const hair=new THREE.Mesh(new THREE.SphereGeometry(.26,18,12,0,Math.PI*2,0,Math.PI*.52),hairMat);hair.position.set(0,2.12,.015);avatar.add(hair);
+const limbs=[];
+for(const sx of [-1,1]){const arm=new THREE.Mesh(new THREE.CapsuleGeometry(.09,.5,4,8),coat);arm.position.set(sx*.39,1.23,0);arm.rotation.z=-sx*.14;avatar.add(arm);limbs.push(arm);const hand=new THREE.Mesh(new THREE.SphereGeometry(.085,10,8),skin);hand.position.set(sx*.42,.91,-.01);avatar.add(hand);const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.12,.5,4,8),pants);leg.position.set(sx*.16,.47,0);avatar.add(leg);limbs.push(leg);const shoe=addBox(avatar,.22,.13,.36,shoeMat,sx*.16,.12,-.08)}
+for(const sx of [-1,1]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.018,8,8),new THREE.MeshBasicMaterial({color:0x171313}));eye.position.set(sx*.08,2.04,-.225);avatar.add(eye)}
+const zipper=addBox(avatar,.018,.5,.012,gold,0,1.3,-.245);
+let player={x:0,y:0,z:24,rot:0,level:0};avatar.position.set(player.x,0,player.z);
+const keys={};let started=false,shopOpen=false,nearStore=-1,menuOpen=false;const bag=[];
+function notify(s){const t=document.getElementById('toast');t.textContent=s;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),2100)}
+function openShop(i){if(i<0)return;shopOpen=true;const s=storeData[i];document.getElementById('shopName').textContent=s.name;document.getElementById('shopDesc').textContent=s.desc+' Select a product to add it to your demo bag.';document.getElementById('items').innerHTML=s.items.map(v=>'<div class="item"><strong>'+v[0]+'</strong><small>€ '+v[1]+'</small><button class="addItem">＋ ADD TO BAG</button></div>').join('');document.getElementById('panel').style.display='flex';document.querySelectorAll('.addItem').forEach((b,j)=>b.onclick=()=>{bag.push({name:s.items[j][0],price:s.items[j][1],store:s.name});renderBag();notify(s.items[j][0]+' added to your bag')})}
 function closeShop(){shopOpen=false;document.getElementById('panel').style.display='none'}
 document.getElementById('leave').onclick=closeShop;
-function launchMall(e){if(e){e.preventDefault();e.stopPropagation()}if(started)return;started=true;const cover=document.getElementById('start');cover.style.opacity='0';cover.style.pointerEvents='none';setTimeout(()=>{cover.style.display='none'},220);document.getElementById('glassHud').style.display='flex';document.getElementById('dock').style.display='flex';notify('WELCOME TO JANAN MALL');}
-const beginButton=document.getElementById('begin');
-beginButton.style.touchAction='manipulation';
-beginButton.addEventListener('click',launchMall);
-beginButton.addEventListener('pointerup',launchMall);
-document.getElementById('enterShop').onclick=()=>openShop(nearStore);document.getElementById('shopQuick').onclick=()=>openShop(nearStore);
-addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(e.key==='Enter'||e.key.toLowerCase()==='e')openShop(nearStore)});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k.toLowerCase();b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;try{b.setPointerCapture(e.pointerId)}catch(_){}});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,e=>{keys[k]=false;if(e.cancelable)e.preventDefault()}))});
-document.addEventListener('selectstart',e=>e.preventDefault());document.addEventListener('contextmenu',e=>{if(e.target.closest('#controls'))e.preventDefault()});
-let last=performance.now();
-function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.04);last=now;
-if(started&&!shopOpen){let f=(keys['w']||keys['arrowup']?1:0)-(keys['s']||keys['arrowdown']?1:0);let turn=(keys['d']?1:0)-(keys['a']?1:0)+(keys['arrowleft']?1:0)-(keys['arrowright']?1:0);if(turn)player.rot+=turn*2.15*dt;if(f){const speed=5.2*dt;player.x+=Math.sin(player.rot)*f*speed;player.z-=Math.cos(player.rot)*f*speed;player.x=THREE.MathUtils.clamp(player.x,-18,18);player.z=THREE.MathUtils.clamp(player.z,-21,25);avatar.rotation.y=player.rot;torso.position.y=1.28+Math.sin(now*.014)*.025}}
-// Walkable escalator ramps: climb from the lower level to the upper gallery.
-const rampX=Math.min(Math.abs(player.x+7),Math.abs(player.x-7));
-if(rampX<1.65 && player.z>-14.2 && player.z<-4.0){
- player.y=THREE.MathUtils.clamp((player.z+14.2)/8.7,0,1)*5.2;
-}else if(player.y>4.7 && player.z<-5.3 && player.z>-12.8){
- player.y=5.2;
-}else{
- player.y=0;
+function launch(){if(started)return;started=true;const el=document.getElementById('start');el.style.opacity='0';el.style.pointerEvents='none';setTimeout(()=>el.style.display='none',650);document.getElementById('glassHud').style.display='flex';document.getElementById('dock').style.display='flex';document.getElementById('controls').style.display='grid';notify('WELCOME TO JANAN MALL')}
+document.getElementById('begin').addEventListener('click',launch);document.getElementById('begin').addEventListener('pointerup',e=>{e.preventDefault();launch()});
+document.getElementById('enterShop').onclick=()=>openShop(nearStore);
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(k==='e'||k==='enter'){if(nearStore>=0)openShop(nearStore)}});
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k.toLowerCase();b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;b.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
+let drag=false,lastX=0;renderer.domElement.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'){drag=true;lastX=e.clientX}});renderer.domElement.addEventListener('pointermove',e=>{if(drag&&started&&!shopOpen){const dx=e.clientX-lastX;player.rot-=dx*.006;lastX=e.clientX}});['pointerup','pointercancel','pointerleave'].forEach(ev=>renderer.domElement.addEventListener(ev,()=>drag=false));
+function renderBag(){document.getElementById('cartCount').textContent=bag.length;document.getElementById('cartLines').innerHTML=bag.length?bag.map((v,i)=>'<div class="cartLine"><span>'+v.name+'<small style="display:block;color:#aebbd0;margin-top:4px">'+v.store+'</small></span><span>€ '+v.price+' <button data-remove="'+i+'">REMOVE</button></span></div>').join(''):'<p style="color:#b9c6d9">Your bag is waiting for something special.</p>';document.getElementById('cartTotal').textContent=bag.length?'Items in bag: '+bag.length:'';document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{bag.splice(+b.dataset.remove,1);renderBag()})}
+function showDirectory(){document.getElementById('storeRows').innerHTML=storeData.map((s,i)=>'<div class="storeRow"><div><strong>'+s.name+'</strong><small>'+s.desc+'<br>4 products · Ground floor</small></div><button data-go="'+i+'">VISIT</button></div>').join('');document.getElementById('directory').style.display='flex';document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{document.getElementById('directory').style.display='none';openShop(+b.dataset.go)})}
+document.querySelectorAll('#dock button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#dock button').forEach(q=>q.classList.remove('active'));b.classList.add('active');const tab=b.dataset.tab;if(tab==='stores')showDirectory();else if(tab==='cart'){renderBag();document.getElementById('cartPanel').style.display='flex'}else if(tab==='discover')notify('Four signature destinations · One extraordinary experience');else notify('Explore the atrium and walk into a store')});
+document.getElementById('closeDirectory').onclick=()=>document.getElementById('directory').style.display='none';document.getElementById('closeCart').onclick=()=>document.getElementById('cartPanel').style.display='none';
+const clock=new THREE.Clock();let elapsed=0;
+function update(dt){if(!started||shopOpen)return;let forward=(keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0);let turn=(keys.a||keys.arrowleft?1:0)-(keys.d||keys.arrowright?1:0);player.rot+=turn*2.2*dt;if(forward){const v=5.4*dt;player.x+=Math.sin(player.rot)*forward*v;player.z-=Math.cos(player.rot)*forward*v}
+player.x=THREE.MathUtils.clamp(player.x,-21,21);player.z=THREE.MathUtils.clamp(player.z,-23,31);
+// ramp climbing: two broad walkable escalators from the atrium floor to gallery level
+const rx=Math.min(Math.abs(player.x+15),Math.abs(player.x-15));
+if(rx<2.0&&player.z>-16.1&&player.z<-3.9){player.y=THREE.MathUtils.clamp((-player.z-3.9)/12.2,0,1)*5.1;player.level=player.y>4.8?1:0}
+else if(player.level===1&&player.z>-16.8&&player.z<-3.2){player.y=5.1}
+else{player.y=0;player.level=0}
+avatar.position.set(player.x,player.y,player.z);avatar.rotation.y=player.rot;
+const moving=Math.abs(forward)>0;const swing=moving?Math.sin(elapsed*10)*.48:0;limbs[0].rotation.x=swing;limbs[1].rotation.x=-swing;limbs[2].rotation.x=-swing*.7;limbs[3].rotation.x=swing*.7;torso.position.y=1.28+(moving?Math.abs(Math.sin(elapsed*10))*.035:0);
+nearStore=-1;let min=1e6;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s.x,player.z-s.z);if(d<min){min=d;nearStore=i}});if(min>6.2)nearStore=-1;
+document.getElementById('enterShop').style.display=nearStore>=0?'block':'none';document.getElementById('hint').textContent=nearStore>=0?'PRESS E / ENTER TO VISIT '+storeData[nearStore].name:'WALK TO EXPLORE · FIND THE STORES · USE THE DIRECTORY ANYTIME';
+document.getElementById('floor').textContent=player.level?'UPPER GALLERY · LEVEL 02':'GROUND FLOOR · ATRIUM';
 }
-avatar.position.set(player.x,player.y,player.z);
-const desired=new THREE.Vector3(player.x+Math.sin(player.rot)*8,player.y+5.4,player.z+Math.cos(player.rot)*9);camera.position.lerp(desired,Math.min(1,dt*5));camera.lookAt(player.x,player.y+1.55,player.z- Math.cos(player.rot)*2);
-nearStore=-1;let min=999;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s.x,player.z-s.z);if(d<min){min=d;nearStore=i}});if(min>5.2)nearStore=-1;
-document.getElementById('shopQuick').style.display='none';
-document.getElementById('hint').textContent=nearStore>=0?'YOU ARE AT '+storeData[nearStore].name+' · PRESS ENTER TO ENTER':'WALK AROUND · USE STORES TO FIND EVERY SHOP';
-if(started){const pulse=1+Math.sin(now*.0015)*.12;neonViolet.emissiveIntensity=1.9+pulse*.35;neonBlue.emissiveIntensity=1.45+pulse*.2;}renderer.render(scene,camera)}
-camera.position.set(0,6,25);camera.lookAt(0,1,0);requestAnimationFrame(animate);
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.05:1.35));renderer.setSize(innerWidth,innerHeight)});
-
-const bag=[];
-function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),2200)}
-function renderBag(){document.getElementById('cartCount').textContent=bag.length;document.getElementById('cartLines').innerHTML=bag.length?bag.map((v,i)=>'<div class="cartLine"><span>'+v.name+'<small style="display:block;color:#aebbd0;margin-top:4px">'+v.store+'</small></span><span>€ '+v.price+' <button class="miniBtn" data-remove="'+i+'">REMOVE</button></span></div>').join(''):'<p style="color:#b9c6d9">Your bag is waiting for something special.</p>';document.getElementById('cartTotal').textContent=bag.length?'Items in bag: '+bag.length:'';
-document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{bag.splice(+b.dataset.remove,1);renderBag()})}
-function showDirectory(){document.getElementById('storeRows').innerHTML=storeData.map((s,i)=>'<div class="storeRow"><div><strong>'+s.name+'</strong><small>'+s.desc+'<br>'+s.items.length+' products · Tap to browse</small></div><button data-go="'+i+'">SHOP NOW</button></div>').join('');document.getElementById('directory').style.display='flex';document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const i=+b.dataset.go;document.getElementById('directory').style.display='none';openShop(i)})}
-document.querySelectorAll('#dock button').forEach(b=>b.addEventListener('click',()=>{const tab=b.dataset.tab;if(tab==='stores')showDirectory();else if(tab==='cart'){renderBag();document.getElementById('cartPanel').style.display='flex'}else if(tab==='discover')notify('Discover: four curated destinations await you.');else notify('You are exploring JANAN MALL.')}));
-document.getElementById('closeDirectory').onclick=()=>document.getElementById('directory').style.display='none';
-document.getElementById('closeCart').onclick=()=>document.getElementById('cartPanel').style.display='none';
-
-document.getElementById('hint').textContent='WASD / ARROWS TO WALK · A/D TO TURN · ENTER NEAR A STORE';
-
+function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);elapsed+=dt;update(dt);const target=new THREE.Vector3(player.x+Math.sin(player.rot)*8,player.y+5.4,player.z+Math.cos(player.rot)*9);camera.position.lerp(target,Math.min(1,dt*4.5));camera.lookAt(player.x,player.y+1.4,player.z-Math.cos(player.rot)*2);renderer.render(scene,camera)}
+camera.position.set(0,7,34);camera.lookAt(0,1,0);animate();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,mobile?1.25:1.7));renderer.setSize(innerWidth,innerHeight)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){for(const k in keys)keys[k]=false}});
 </script>
 </body></html>
