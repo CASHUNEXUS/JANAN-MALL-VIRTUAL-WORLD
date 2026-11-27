@@ -77,19 +77,7 @@ button{border:1px solid #f0d59c;background:linear-gradient(135deg,#e8c98b,#a77e4
 <div id="toast"></div>
 <div id="directory"><div id="directoryBox"><h2>DISCOVER JANAN</h2><p style="color:#b9c6d9">Explore the destinations inside the mall.</p><div id="storeRows"></div><button id="closeDirectory">CLOSE</button></div></div>
 <div id="cartPanel"><div id="cartBox"><h2 style="color:#ead5ff;letter-spacing:.15em">YOUR SHOPPING BAG</h2><div id="cartLines"></div><p id="cartTotal" style="color:#d9c8ff"></p><p style="color:#aebbd0;font-size:11px">DEMO EXPERIENCE · Checkout is not connected to a payment service.</p><button id="closeCart">CONTINUE EXPLORING</button></div></div>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
-const bag=[];
-function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),2200)}
-function renderBag(){document.getElementById('cartCount').textContent=bag.length;document.getElementById('cartLines').innerHTML=bag.length?bag.map((v,i)=>'<div class="cartLine"><span>'+v.name+'<small style="display:block;color:#aebbd0;margin-top:4px">'+v.store+'</small></span><span>€ '+v.price+' <button class="miniBtn" data-remove="'+i+'">REMOVE</button></span></div>').join(''):'<p style="color:#b9c6d9">Your bag is waiting for something special.</p>';document.getElementById('cartTotal').textContent=bag.length?'Items in bag: '+bag.length:'';
-document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{bag.splice(+b.dataset.remove,1);renderBag()})}
-function showDirectory(){document.getElementById('storeRows').innerHTML=storeData.map((s,i)=>'<div class="storeRow"><div><strong>'+s.name+'</strong><small>'+s.desc+'</small></div><button data-go="'+i+'">VISIT</button></div>').join('');document.getElementById('directory').style.display='flex';document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{document.getElementById('directory').style.display='none';const s=storeData[+b.dataset.go];player.x=s.x;player.z=s.z+7;player.rot=0;avatar.rotation.y=0;notify('You are near '+s.name+' — press ENTER')})}
-document.querySelectorAll('#dock button').forEach(b=>b.addEventListener('click',()=>{const tab=b.dataset.tab;if(tab==='stores')showDirectory();else if(tab==='cart'){renderBag();document.getElementById('cartPanel').style.display='flex'}else if(tab==='discover')notify('Discover: four curated destinations await you.');else notify('You are exploring JANAN MALL.')}));
-document.getElementById('closeDirectory').onclick=()=>document.getElementById('directory').style.display='none';
-document.getElementById('closeCart').onclick=()=>document.getElementById('cartPanel').style.display='none';
-const originalOpenShop=openShop;
-openShop=function(i){if(i<0)return;originalOpenShop(i);document.querySelectorAll('#items .item').forEach((el,j)=>{el.title='Tap to add to shopping bag';el.onclick=()=>{const item=storeData[i].items[j];bag.push({name:item[0],price:item[1],store:storeData[i].name});renderBag();notify(item[0]+' added to your bag')}})};
-document.getElementById('hint').textContent='WASD / ARROWS TO WALK · A/D TO TURN · ENTER NEAR A STORE';
-</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
 import * as THREE from 'three';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x9aa9bb);scene.fog=new THREE.Fog(0x9aa9bb,35,95);
@@ -190,5 +178,18 @@ document.getElementById('hint').textContent=nearStore>=0?'PRESS ENTER TO EXPLORE
 if(started){const pulse=1+Math.sin(now*.0015)*.12;neonViolet.emissiveIntensity=1.9+pulse*.35;neonBlue.emissiveIntensity=1.45+pulse*.2;}renderer.render(scene,camera)}
 camera.position.set(0,6,25);camera.lookAt(0,1,0);requestAnimationFrame(animate);
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight)});
+
+const bag=[];
+function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),2200)}
+function renderBag(){document.getElementById('cartCount').textContent=bag.length;document.getElementById('cartLines').innerHTML=bag.length?bag.map((v,i)=>'<div class="cartLine"><span>'+v.name+'<small style="display:block;color:#aebbd0;margin-top:4px">'+v.store+'</small></span><span>€ '+v.price+' <button class="miniBtn" data-remove="'+i+'">REMOVE</button></span></div>').join(''):'<p style="color:#b9c6d9">Your bag is waiting for something special.</p>';document.getElementById('cartTotal').textContent=bag.length?'Items in bag: '+bag.length:'';
+document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{bag.splice(+b.dataset.remove,1);renderBag()})}
+function showDirectory(){document.getElementById('storeRows').innerHTML=storeData.map((s,i)=>'<div class="storeRow"><div><strong>'+s.name+'</strong><small>'+s.desc+'</small></div><button data-go="'+i+'">VISIT</button></div>').join('');document.getElementById('directory').style.display='flex';document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{document.getElementById('directory').style.display='none';const s=storeData[+b.dataset.go];player.x=s.x;player.z=s.z+7;player.rot=0;avatar.rotation.y=0;notify('You are near '+s.name+' — press ENTER')})}
+document.querySelectorAll('#dock button').forEach(b=>b.addEventListener('click',()=>{const tab=b.dataset.tab;if(tab==='stores')showDirectory();else if(tab==='cart'){renderBag();document.getElementById('cartPanel').style.display='flex'}else if(tab==='discover')notify('Discover: four curated destinations await you.');else notify('You are exploring JANAN MALL.')}));
+document.getElementById('closeDirectory').onclick=()=>document.getElementById('directory').style.display='none';
+document.getElementById('closeCart').onclick=()=>document.getElementById('cartPanel').style.display='none';
+const originalOpenShop=openShop;
+openShop=function(i){if(i<0)return;originalOpenShop(i);document.querySelectorAll('#items .item').forEach((el,j)=>{el.title='Tap to add to shopping bag';el.onclick=()=>{const item=storeData[i].items[j];bag.push({name:item[0],price:item[1],store:storeData[i].name});renderBag();notify(item[0]+' added to your bag')}})};
+document.getElementById('hint').textContent='WASD / ARROWS TO WALK · A/D TO TURN · ENTER NEAR A STORE';
+
 </script>
 </body></html>
