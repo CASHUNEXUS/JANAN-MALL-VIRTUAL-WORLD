@@ -111,6 +111,24 @@ function planter(x,z){addCyl(scene,1.2,1.35,.55,dark,x,.2,z);addCyl(scene,1.12,1
 [[-20,-4],[20,-4],[-20,18],[20,18],[-8,22],[8,22],[-8,-21],[8,-21]].forEach(p=>planter(p[0],p[1]));
 for(const side of [-1,1]){for(const z of [-1,15]){addBox(scene,4,.55,1.1,wood,side*19,.55,z);addBox(scene,4.1,.1,1.2,gold,side*19,.85,z)}}
 for(let x=-20;x<=20;x+=5){addBox(scene,.12,7,.18,ivory,x,8,-24.2);addBox(scene,.3,.12,.3,gold,x,11.4,-24.2)}
+// Signature JANAN MALL landmark sign inside the atrium
+function mallLogo(){
+ const cv=document.createElement('canvas');cv.width=1400;cv.height=420;const x=cv.getContext('2d');
+ const grad=x.createLinearGradient(0,0,1400,420);grad.addColorStop(0,'#101c2c');grad.addColorStop(.5,'#25364a');grad.addColorStop(1,'#101827');
+ x.fillStyle=grad;x.fillRect(0,0,1400,420);
+ x.strokeStyle='#d8bd7a';x.lineWidth=9;x.strokeRect(22,22,1356,376);
+ x.strokeStyle='rgba(236,213,159,.45)';x.lineWidth=2;x.strokeRect(42,42,1316,336);
+ x.textAlign='center';x.shadowColor='#e0bd73';x.shadowBlur=22;
+ const goldGrad=x.createLinearGradient(0,120,0,270);goldGrad.addColorStop(0,'#fff0c4');goldGrad.addColorStop(.48,'#d8b66c');goldGrad.addColorStop(1,'#9c7540');
+ x.fillStyle=goldGrad;x.font='bold 154px Georgia';x.fillText('JANAN MALL',700,250);
+ x.shadowBlur=0;x.fillStyle='#f4e7c8';x.font='600 43px Arial';x.letterSpacing='15px';x.fillText('TABRIZ  ·  LUXURY SHOPPING DESTINATION',700,326);
+ const tex=new THREE.CanvasTexture(cv);tex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+ const panel=new THREE.Mesh(new THREE.PlaneGeometry(13.5,4.05),new THREE.MeshBasicMaterial({map:tex}));
+ panel.position.set(0,8.5,-23.65);scene.add(panel);
+ const glow=new THREE.PointLight(0xe9c77d,18,18);glow.position.set(0,8.2,-20.8);scene.add(glow);
+}
+mallLogo();
+
 // Upper-level boutiques and balcony accents
 for(const side of [-1,1]){for(let z=-13;z<=-7;z+=3){addBox(scene,5,.12,2,wood,side*18.5,5.65,z);addBox(scene,5,.06,.08,blueGlow,side*18.5,5.75,z+1)}} 
 // Living mall: shop assistants, security staff and customers
@@ -181,7 +199,7 @@ function showDirectory(){document.getElementById('storeRows').innerHTML=storeDat
 document.querySelectorAll('#dock button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#dock button').forEach(q=>q.classList.remove('active'));b.classList.add('active');const tab=b.dataset.tab;if(tab==='stores')showDirectory();else if(tab==='cart'){renderBag();document.getElementById('cartPanel').style.display='flex'}else if(tab==='discover')notify('Four signature destinations · One extraordinary experience');else notify('Explore the atrium and walk into a store')});
 document.getElementById('closeDirectory').onclick=()=>document.getElementById('directory').style.display='none';document.getElementById('closeCart').onclick=()=>document.getElementById('cartPanel').style.display='none';
 const clock=new THREE.Clock();let elapsed=0;
-function update(dt){if(!started||shopOpen)return;let forward=(keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0);let strafe=(keys.arrowright?1:0)-(keys.arrowleft?1:0);player.rot+=(keys.a&&!keys.arrowleft?-1:0)+(keys.d&&!keys.arrowright?1:0);player.rot*=1;const sprint=keys.shift;const v=(sprint?9.2:5.4)*dt;const mag=Math.hypot(forward,strafe)||1;player.x+=(Math.sin(player.rot)*forward+Math.cos(player.rot)*strafe)/mag*v;player.z+=(-Math.cos(player.rot)*forward+Math.sin(player.rot)*strafe)/mag*v
+function update(dt){if(!started||shopOpen)return;let forward=(keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0);let strafe=(keys.dpadright||keys.dpadleft?0:0);player.rot+=(keys.arrowright||keys.d?1:0)-(keys.arrowleft||keys.a?1:0);const sprint=keys.shift;const v=(sprint?9.2:5.4)*dt;const mag=Math.hypot(forward,strafe)||1;player.x+=(Math.sin(player.rot)*forward+Math.cos(player.rot)*strafe)/mag*v;player.z+=(-Math.cos(player.rot)*forward+Math.sin(player.rot)*strafe)/mag*v
 player.x=THREE.MathUtils.clamp(player.x,-22,22);player.z=THREE.MathUtils.clamp(player.z,-23,31);
 // ramp climbing: two broad walkable escalators from the atrium floor to gallery level
 const rx=Math.min(Math.abs(player.x+15),Math.abs(player.x-15));
