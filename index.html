@@ -41,7 +41,7 @@ import * as THREE from 'three';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x9eafc0);scene.fog=new THREE.Fog(0x9eafc0,38,100);
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,180);
 const mobile=matchMedia('(pointer:coarse)').matches||innerWidth<800;
-const renderer=new THREE.WebGLRenderer({antialias:!mobile,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,mobile?1.25:1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=!mobile;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);
+const renderer=new THREE.WebGLRenderer({antialias:!mobile,powerPreference:'high-performance'});const renderDpr=()=>Math.min(devicePixelRatio,mobile?1.0:1.7);renderer.setPixelRatio(renderDpr());renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=!mobile;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xe8f1ff,0x65513d,2.1));
 const sun=new THREE.DirectionalLight(0xffe4bd,2.8);sun.position.set(-15,28,18);sun.castShadow=!mobile;if(!mobile){sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-30;sun.shadow.camera.right=30;sun.shadow.camera.top=30;sun.shadow.camera.bottom=-30}scene.add(sun);
 const fill=new THREE.DirectionalLight(0xa9d8ff,1.2);fill.position.set(18,12,-10);scene.add(fill);
@@ -50,7 +50,7 @@ const goldLight=new THREE.MeshStandardMaterial({color:0xf1d9a2,metalness:.55,rou
 const ivory=new THREE.MeshStandardMaterial({color:0xe8e3d9,roughness:.34});
 const marble=new THREE.MeshStandardMaterial({color:0xc8c6c1,roughness:.22,metalness:.1});
 const dark=new THREE.MeshStandardMaterial({color:0x111b2a,roughness:.3,metalness:.48});
-const glass=new THREE.MeshPhysicalMaterial({color:0x9ac8e2,metalness:.15,roughness:.08,transparent:true,opacity:.3,transmission:.25,side:THREE.DoubleSide});
+const glass=new THREE.MeshStandardMaterial({color:0x9ac8e2,metalness:.08,roughness:.22,transparent:true,opacity:.3,side:THREE.DoubleSide,depthWrite:false});
 const wood=new THREE.MeshStandardMaterial({color:0x654733,roughness:.55});
 const green=new THREE.MeshStandardMaterial({color:0x285b40,roughness:.82});
 const white=new THREE.MeshStandardMaterial({color:0xf5f1e8,roughness:.3});
@@ -213,9 +213,9 @@ nearStore=-1;let min=1e6;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s
 document.getElementById('enterShop').style.display=nearStore>=0?'block':'none';document.getElementById('hint').textContent=nearStore>=0?'PRESS E / ENTER TO VISIT '+storeData[nearStore].name:'WALK TO EXPLORE · FIND THE STORES · USE THE DIRECTORY ANYTIME';
 document.getElementById('floor').textContent=player.level?'UPPER GALLERY · LEVEL 02':'GROUND FLOOR · ATRIUM';
 }
-function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);elapsed+=dt;update(dt);const target=new THREE.Vector3(player.x+Math.sin(player.rot)*6.5,player.y+3.8,player.z+Math.cos(player.rot)*7.2);camera.position.lerp(target,Math.min(1,dt*4.5));camera.lookAt(player.x,player.y+1.35,player.z-Math.cos(player.rot)*2.1);renderer.render(scene,camera)}
+const cameraTarget=new THREE.Vector3();function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);elapsed+=dt;update(dt);cameraTarget.set(player.x+Math.sin(player.rot)*6.5,player.y+3.8,player.z+Math.cos(player.rot)*7.2);camera.position.lerp(cameraTarget,Math.min(1,dt*4.5));camera.lookAt(player.x,player.y+1.35,player.z-Math.cos(player.rot)*2.1);renderer.render(scene,camera)}
 camera.position.set(0,7,34);camera.lookAt(0,1,0);animate();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,mobile?1.25:1.7));renderer.setSize(innerWidth,innerHeight)});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(renderDpr());renderer.setSize(innerWidth,innerHeight)});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){for(const k in keys)keys[k]=false}});
 </script>
 </body></html>
