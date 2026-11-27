@@ -82,10 +82,13 @@ button{border:1px solid #f0d59c;background:linear-gradient(135deg,#e8c98b,#a77e4
 import * as THREE from 'three';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x9aa9bb);scene.fog=new THREE.Fog(0x9aa9bb,35,95);
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,180);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);
+const isMobile=matchMedia('(max-width: 800px), (pointer: coarse)').matches;
+const renderer=new THREE.WebGLRenderer({antialias:!isMobile,powerPreference:'high-performance',alpha:false,stencil:false,depth:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.05:1.35));renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=false;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xdce9ff,0x5a4634,2.0));
-const key=new THREE.DirectionalLight(0xffe1ad,3.0);key.position.set(-12,24,12);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-35;key.shadow.camera.right=35;key.shadow.camera.top=35;key.shadow.camera.bottom=-35;scene.add(key);
-const warm=new THREE.PointLight(0xffc979,85,35);warm.position.set(0,8,0);scene.add(warm);
+const key=new THREE.DirectionalLight(0xffe1ad,3.0);key.position.set(-12,24,12);key.castShadow=false;scene.add(key);
+const warm=new THREE.PointLight(0xffc979,38,28);warm.position.set(0,8,0);scene.add(warm);
 const mats={floor:new THREE.MeshStandardMaterial({color:0x777b80,roughness:.24,metalness:.35}),stone:new THREE.MeshStandardMaterial({color:0xe4dfd4,roughness:.45}),gold:new THREE.MeshStandardMaterial({color:0xc9a568,metalness:.72,roughness:.25}),dark:new THREE.MeshStandardMaterial({color:0x17232e,roughness:.28,metalness:.45}),glass:new THREE.MeshPhysicalMaterial({color:0x8bb6cf,metalness:.2,roughness:.08,transparent:true,opacity:.34,transmission:.35}),wood:new THREE.MeshStandardMaterial({color:0x75543b,roughness:.55}),green:new THREE.MeshStandardMaterial({color:0x315d43,roughness:.8}),white:new THREE.MeshStandardMaterial({color:0xf0eee8,roughness:.3})};
 function box(w,h,d,mat,x,y,z,shadow=true){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=shadow;m.receiveShadow=true;scene.add(m);return m}
 function cyl(r1,r2,h,mat,x,y,z,seg=32){const m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,seg),mat);m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m}
@@ -111,7 +114,7 @@ const storeMeshes=[];
 storeData.forEach((s,i)=>{const group=new THREE.Group();group.position.set(s.x,0,s.z);scene.add(group);const back=new THREE.Mesh(new THREE.BoxGeometry(8,4.6,.35),mats.dark);back.position.set(0,2.3,0);group.add(back);const glass=new THREE.Mesh(new THREE.BoxGeometry(7.7,3.5,.12),mats.glass);glass.position.set(0,2.15,.25);group.add(glass);const top=new THREE.Mesh(new THREE.BoxGeometry(8.4,.35,.7),mats.gold);top.position.set(0,4.7,0);group.add(top);const sign=label(s.name,0,4.85,.42,.7);group.add(sign);for(let k=0;k<3;k++){const shelf=new THREE.Mesh(new THREE.BoxGeometry(1.25,1.5,.65),k%2?mats.wood:mats.stone);shelf.position.set(-2.5+k*2.5,1.0,.5);group.add(shelf);for(let j=0;j<3;j++){const product=new THREE.Mesh(new THREE.BoxGeometry(.42,.6,.38),[mats.gold,mats.green,mats.white][(j+k)%3]);product.position.set(-2.8+k*2.5+j*.28,2.1,.55);group.add(product)}}storeMeshes.push(group)});
 // grand circular skylight and chandelier
 for(let y of [12.8,13.1])ring(6,.16,mats.gold,0,y,-2);
-for(let i=0;i<12;i++){const a=i*Math.PI/6;const l=new THREE.PointLight(0xffd28a,9,13);l.position.set(Math.cos(a)*5,11.8,-2+Math.sin(a)*5);scene.add(l)}
+for(let i=0;i<4;i++){const a=i*Math.PI/2;const l=new THREE.PointLight(0xffd28a,3.5,10);l.position.set(Math.cos(a)*5,11.8,-2+Math.sin(a)*5);scene.add(l)}
 for(let i=0;i<8;i++){const a=i*Math.PI/4;const p=cyl(.12,.12,1.8,mats.gold,Math.cos(a)*4,11.7,-2+Math.sin(a)*4);p.rotation.z=Math.PI/2}
 cyl(1.1,1.1,.18,mats.gold,0,11.2,-2);cyl(.55,.55,.5,mats.white,0,10.9,-2);
 // central information desk
@@ -146,7 +149,7 @@ storeData.forEach((s,i)=>{
  const g=storeMeshes[i];
  for(const x of [-3.9,3.9]){const pillar=new THREE.Mesh(new THREE.BoxGeometry(.22,4.55,.5),paleStone);pillar.position.set(x,2.3,.34);g.add(pillar);const trim=new THREE.Mesh(new THREE.BoxGeometry(.3,.12,.58),neonViolet);trim.position.set(x,4.48,.35);g.add(trim)}
  const sill=new THREE.Mesh(new THREE.BoxGeometry(8.1,.18,.55),mats.gold);sill.position.set(0,.12,.35);g.add(sill);
- for(let k=-1;k<=1;k++){const spot=new THREE.SpotLight(0xd9c5ff,24,8,.55,.6,1);spot.position.set(k*2.4,4.2,1.8);spot.target.position.set(k*2.4,1.1,.2);g.add(spot);g.add(spot.target)}
+ for(let k=-1;k<=1;k++){const glow=new THREE.Mesh(new THREE.BoxGeometry(1.5,.035,.035),neonBlue);glow.position.set(k*2.4,3.9,.7);g.add(glow)}
  const plinth=new THREE.Mesh(new THREE.BoxGeometry(7.5,.08,1.1),neonBlue);plinth.position.set(0,.08,1.15);g.add(plinth);
 });
 // glass balustrade highlights and floor inlay rings around the concierge
@@ -177,7 +180,7 @@ nearStore=-1;let min=999;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s
 document.getElementById('hint').textContent=nearStore>=0?'PRESS ENTER TO EXPLORE '+storeData[nearStore].name:'WASD / ARROWS TO WALK · EXPLORE THE ATRIUM';
 if(started){const pulse=1+Math.sin(now*.0015)*.12;neonViolet.emissiveIntensity=1.9+pulse*.35;neonBlue.emissiveIntensity=1.45+pulse*.2;}renderer.render(scene,camera)}
 camera.position.set(0,6,25);camera.lookAt(0,1,0);requestAnimationFrame(animate);
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight)});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.05:1.35));renderer.setSize(innerWidth,innerHeight)});
 
 const bag=[];
 function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),2200)}
