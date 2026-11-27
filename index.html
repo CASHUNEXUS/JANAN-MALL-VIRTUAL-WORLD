@@ -76,7 +76,7 @@ addBox(scene,43,.18,.22,gold,0,5.55,-16.45);
 addBox(scene,43,1.1,.15,glass,0,5.95,-3.6);addBox(scene,43,.08,.2,gold,0,6.52,-3.6);
 addBox(scene,43,1.1,.15,glass,0,5.95,-16.4);addBox(scene,43,.08,.2,gold,0,6.52,-16.4);
 // escalator ramps on both sides; actual walkable inclined planes
-function ramp(x){const group=new THREE.Group();group.position.set(x,0,-10);scene.add(group);const slope=addBox(group,3.4,.25,12,dark,0,2.55,0);slope.rotation.x=-Math.atan(5.1/12);const deck=addBox(group,2.65,.12,11.7,gold,0,2.68,0);deck.rotation.x=-Math.atan(5.1/12);for(let i=0;i<18;i++){const z=-5.5+i*.65;const y=5.1*(i/17);addBox(group,2.35,.11,.42,ivory,0,y+.1,z)}for(const sx of [-1,1]){const rail=addBox(group,.13,.8,12,glass,sx*1.55,3.15,0);rail.rotation.x=-Math.atan(5.1/12);const cap=addBox(group,.16,.1,12,gold,sx*1.55,3.62,0);cap.rotation.x=-Math.atan(5.1/12)}return group}
+function ramp(x){const group=new THREE.Group();group.position.set(x,0,-10);scene.add(group);const slope=addBox(group,3.4,.25,12,dark,0,2.55,0);slope.rotation.x=-Math.atan(5.1/12);const deck=addBox(group,2.65,.12,11.7,gold,0,2.68,0);deck.rotation.x=-Math.atan(5.1/12);for(let i=0;i<18;i++){const z=-5.5+i*.65;const y=5.1*(1-i/17);addBox(group,2.35,.11,.42,ivory,0,y+.1,z)}for(const sx of [-1,1]){const rail=addBox(group,.13,.8,12,glass,sx*1.55,3.15,0);rail.rotation.x=-Math.atan(5.1/12);const cap=addBox(group,.16,.1,12,gold,sx*1.55,3.62,0);cap.rotation.x=-Math.atan(5.1/12)}return group}
 ramp(-15);ramp(15);
 // Atrium ceiling ribs, skylight and chandelier
 for(let z=-22;z<=16;z+=4){addBox(scene,44,.22,.28,gold,0,14.1,z);addBox(scene,44,.045,.06,blueGlow,0,13.94,z)}
