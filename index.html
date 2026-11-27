@@ -128,7 +128,8 @@ cyl(3.5,3.8,.65,mats.stone,0,.35,1,64);cyl(3.45,3.45,.12,mats.gold,0,.72,1,64);c
 for(let i=0;i<8;i++){const a=i*Math.PI/4;const x=Math.cos(a)*3.2,z=1+Math.sin(a)*3.2;cyl(.08,.08,1.1,mats.gold,x,.9,z,12)}
 // escalators
 function escalator(x,z,dir){const base=box(3,.35,11,mats.dark,x,1.05,z);base.rotation.x=dir*.28;const slope=box(2.5,.16,10,mats.gold,x,1.45,z);slope.rotation.x=dir*.28;for(let i=0;i<13;i++){let st=box(2.25,.08,.48,mats.stone,x,1.5+i*.14,z-4.4+i*.72,false);st.rotation.x=dir*.28}const rail=box(.12,.8,10,mats.glass,x-1.35,1.9,z);rail.rotation.x=dir*.28;const rail2=box(.12,.8,10,mats.glass,x+1.35,1.9,z);rail2.rotation.x=dir*.28;box(.14,.1,10,mats.gold,x-1.35,2.32,z).rotation.x=dir*.28;box(.14,.1,10,mats.gold,x+1.35,2.32,z).rotation.x=dir*.28}
-escalator(-7,-1,-1);escalator(7,-1,1);
+// Place the escalators so they physically connect the ground floor to the upper gallery.
+escalator(-7,-9,-1);escalator(7,-9,1);
 // planters, greenery and benches
 function tree(x,z){cyl(.22,.32,2,mats.wood,x,1,z,12);const crown=new THREE.Mesh(new THREE.SphereGeometry(1.2,14,12),mats.green);crown.position.set(x,2.7,z);crown.castShadow=true;scene.add(crown);cyl(1.25,1.35,.5,mats.dark,x,.15,z,32);cyl(1.18,1.18,.12,mats.stone,x,.43,z,32)}
 [[-17,-1],[17,-1],[-17,14],[17,14],[-10,18],[10,18]].forEach(p=>tree(p[0],p[1]));
@@ -189,7 +190,7 @@ for(const sx of [-1,1]){
  const shoe=new THREE.Mesh(new THREE.BoxGeometry(.23,.13,.38),shoes);shoe.position.set(sx*.16,.12,-.07);shoe.castShadow=true;avatar.add(shoe);
 }
 const zipper=new THREE.Mesh(new THREE.BoxGeometry(.018,.52,.012),jacketTrim);zipper.position.set(0,1.29,-.247);avatar.add(zipper);
-let player={x:0,z:17,rot:0};avatar.position.set(player.x,0,player.z);
+let player={x:0,y:0,z:17,rot:0};avatar.position.set(player.x,player.y,player.z);
 const keys={};let started=false,shopOpen=false,nearStore=-1;
 function openShop(i){if(i<0)return;shopOpen=true;const s=storeData[i];document.getElementById('shopName').textContent=s.name;document.getElementById('shopDesc').textContent=s.desc+' · Tap ADD TO BAG to select an item.';document.getElementById('items').innerHTML=s.items.map(a=>'<div class="item"><strong>'+a[0]+'</strong><small>€ '+a[1]+'</small><button class="addItem">＋ ADD TO BAG</button></div>').join('');document.getElementById('panel').style.display='flex';document.querySelectorAll('#items .item').forEach((el,j)=>{el.querySelector('.addItem').onclick=()=>{const item=s.items[j];bag.push({name:item[0],price:item[1],store:s.name});renderBag();notify(item[0]+' added to your bag')}})}
 function closeShop(){shopOpen=false;document.getElementById('panel').style.display='none'}
@@ -206,12 +207,20 @@ document.addEventListener('selectstart',e=>e.preventDefault());document.addEvent
 let last=performance.now();
 function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.04);last=now;
 if(started&&!shopOpen){let f=(keys['w']||keys['arrowup']?1:0)-(keys['s']||keys['arrowdown']?1:0);let turn=(keys['d']?1:0)-(keys['a']?1:0)+(keys['arrowleft']?1:0)-(keys['arrowright']?1:0);if(turn)player.rot+=turn*2.15*dt;if(f){const speed=5.2*dt;player.x+=Math.sin(player.rot)*f*speed;player.z-=Math.cos(player.rot)*f*speed;player.x=THREE.MathUtils.clamp(player.x,-18,18);player.z=THREE.MathUtils.clamp(player.z,-21,25);avatar.rotation.y=player.rot;torso.position.y=1.28+Math.sin(now*.014)*.025}}
-avatar.position.set(player.x,0,player.z);
-const desired=new THREE.Vector3(player.x+Math.sin(player.rot)*8,5.4,player.z+Math.cos(player.rot)*9);camera.position.lerp(desired,Math.min(1,dt*5));camera.lookAt(player.x,1.55,player.z- Math.cos(player.rot)*2);
-nearStore=-1;let min=999;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s.x,player.z-s.z);if(d<min){min=d;nearStore=i}});if(min>11)nearStore=-1;
-document.getElementById('shopQuick').style.display=nearStore>=0?'block':'none';
-document.getElementById('shopQuick').textContent=nearStore>=0?'🛍 SHOP '+storeData[nearStore].name:'';
-document.getElementById('hint').textContent=nearStore>=0?'YOU FOUND '+storeData[nearStore].name+' · TAP SHOP':'WALK AROUND · USE STORES TO FIND EVERY SHOP';
+// Walkable escalator ramps: climb from the lower level to the upper gallery.
+const rampX=Math.min(Math.abs(player.x+7),Math.abs(player.x-7));
+if(rampX<1.65 && player.z>-14.2 && player.z<-4.0){
+ player.y=THREE.MathUtils.clamp((player.z+14.2)/8.7,0,1)*5.2;
+}else if(player.y>4.7 && player.z<-5.3 && player.z>-12.8){
+ player.y=5.2;
+}else{
+ player.y=0;
+}
+avatar.position.set(player.x,player.y,player.z);
+const desired=new THREE.Vector3(player.x+Math.sin(player.rot)*8,player.y+5.4,player.z+Math.cos(player.rot)*9);camera.position.lerp(desired,Math.min(1,dt*5));camera.lookAt(player.x,player.y+1.55,player.z- Math.cos(player.rot)*2);
+nearStore=-1;let min=999;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s.x,player.z-s.z);if(d<min){min=d;nearStore=i}});if(min>5.2)nearStore=-1;
+document.getElementById('shopQuick').style.display='none';
+document.getElementById('hint').textContent=nearStore>=0?'YOU ARE AT '+storeData[nearStore].name+' · PRESS ENTER TO ENTER':'WALK AROUND · USE STORES TO FIND EVERY SHOP';
 if(started){const pulse=1+Math.sin(now*.0015)*.12;neonViolet.emissiveIntensity=1.9+pulse*.35;neonBlue.emissiveIntensity=1.45+pulse*.2;}renderer.render(scene,camera)}
 camera.position.set(0,6,25);camera.lookAt(0,1,0);requestAnimationFrame(animate);
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.05:1.35));renderer.setSize(innerWidth,innerHeight)});
