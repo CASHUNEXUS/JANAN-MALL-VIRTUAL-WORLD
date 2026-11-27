@@ -113,22 +113,45 @@ for(const side of [-1,1]){for(const z of [-1,15]){addBox(scene,4,.55,1.1,wood,si
 for(let x=-20;x<=20;x+=5){addBox(scene,.12,7,.18,ivory,x,8,-24.2);addBox(scene,.3,.12,.3,gold,x,11.4,-24.2)}
 // Upper-level boutiques and balcony accents
 for(const side of [-1,1]){for(let z=-13;z<=-7;z+=3){addBox(scene,5,.12,2,wood,side*18.5,5.65,z);addBox(scene,5,.06,.08,blueGlow,side*18.5,5.75,z+1)}} 
-// Mall visitors: ambient pedestrians moving through the atrium
+// Living mall: shop assistants, security staff and customers
 const pedestrians=[];
-function pedestrian(x,z,color,phase){
+const npcPants=new THREE.MeshStandardMaterial({color:0x252b35,roughness:.85});
+const npcSkin=new THREE.MeshStandardMaterial({color:0xc58d70,roughness:.85});
+function roleTag(text,color){
+ const cv=document.createElement('canvas');cv.width=512;cv.height=128;const cx=cv.getContext('2d');
+ cx.fillStyle='rgba(8,17,29,.82)';cx.beginPath();cx.roundRect(8,8,496,112,22);cx.fill();
+ cx.strokeStyle=color;cx.lineWidth=5;cx.stroke();cx.fillStyle='#fff';cx.font='bold 42px Arial';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(text,256,66);
+ const tex=new THREE.CanvasTexture(cv);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
+ sp.scale.set(2.15,.54,1);sp.position.y=2.65;return sp;
+}
+function pedestrian(x,z,color,phase,role='customer',label='CUSTOMER'){
  const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
  const shirt=new THREE.MeshStandardMaterial({color,roughness:.82});
- const skinNpc=new THREE.MeshStandardMaterial({color:0xc58d70,roughness:.85});
  const torsoNpc=new THREE.Mesh(new THREE.CapsuleGeometry(.24,.52,4,8),shirt);torsoNpc.position.y=1.12;g.add(torsoNpc);
- const headNpc=new THREE.Mesh(new THREE.SphereGeometry(.19,12,10),skinNpc);headNpc.position.y=1.82;g.add(headNpc);
+ const headNpc=new THREE.Mesh(new THREE.SphereGeometry(.19,12,10),npcSkin);headNpc.position.y=1.82;g.add(headNpc);
  const limbsNpc=[];
  for(const side of [-1,1]){
-  const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.085,.42,3,7),pants);leg.position.set(side*.12,.48,0);g.add(leg);limbsNpc.push(leg);
+  const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.085,.42,3,7),npcPants);leg.position.set(side*.12,.48,0);g.add(leg);limbsNpc.push(leg);
   const arm=new THREE.Mesh(new THREE.CapsuleGeometry(.07,.38,3,7),shirt);arm.position.set(side*.29,1.13,0);g.add(arm);limbsNpc.push(arm);
  }
- pedestrians.push({g,limbs:limbsNpc,homeX:x,homeZ:z,phase,speed:.32+Math.random()*.2});
+ if(role==='security'){
+  const cap=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.09,12),new THREE.MeshStandardMaterial({color:0x172b45}));cap.position.y=2.02;g.add(cap);
+  const badge=new THREE.Mesh(new THREE.BoxGeometry(.13,.17,.025),new THREE.MeshStandardMaterial({color:0xd6b45e,metalness:.55}));badge.position.set(.12,1.35,-.22);g.add(badge);
+ }else if(role==='seller'){
+  const tie=new THREE.Mesh(new THREE.ConeGeometry(.07,.32,5),new THREE.MeshStandardMaterial({color:0xd7b35f}));tie.position.set(0,1.25,-.22);g.add(tie);
+ }else{
+  const bag=new THREE.Mesh(new THREE.BoxGeometry(.2,.26,.12),new THREE.MeshStandardMaterial({color:0x8b6445,roughness:.8}));bag.position.set(.38,.9,.02);g.add(bag);
+ }
+ g.add(roleTag(label,role==='security'?'#e2bd63':role==='seller'?'#75c9e8':'#a8b5c8'));
+ pedestrians.push({g,limbs:limbsNpc,homeX:x,homeZ:z,phase,speed:.32+Math.random()*.2,role});
 }
-[[-8,12,0x8e4f42],[8,15,0x344e70],[-7,-1,0x6d7650],[7,-3,0x6b526f],[-4,23,0x9a7447],[4,20,0x4c5b62]].forEach((p,i)=>pedestrian(p[0],p[1],p[2],i*1.7));
+// A dedicated assistant stands at each boutique entrance
+[[-14,-15.8,0x253e63],[14,-15.8,0x3a315b],[-14,5.2,0x254c50],[14,5.2,0x563b32]].forEach((p,i)=>pedestrian(p[0],p[1],p[2],i*1.3,'seller','SALES ASSOCIATE'));
+// Security patrol the atrium and upper-gallery approach
+pedestrian(-5,10,0x203b60,.7,'security','MALL SECURITY');
+pedestrian(5,-5,0x203b60,2.8,'security','MALL SECURITY');
+// Shoppers browse, stroll and cross the atrium
+[[-8,16,0x8e4f42],[8,17,0x344e70],[-7,1,0x6d7650],[7,0,0x6b526f],[-4,25,0x9a7447],[4,22,0x4c5b62],[-18,8,0x8a5f7b],[18,9,0x557b83]].forEach((p,i)=>pedestrian(p[0],p[1],p[2],i*1.7,'customer','CUSTOMER'));
 // Character with articulated limbs
 const avatar=new THREE.Group();scene.add(avatar);
 const skin=new THREE.MeshStandardMaterial({color:0xc98f70,roughness:.78}),hairMat=new THREE.MeshStandardMaterial({color:0x201b1a,roughness:.9}),coat=new THREE.MeshStandardMaterial({color:0x243d59,roughness:.65}),pants=new THREE.MeshStandardMaterial({color:0x202a37,roughness:.8}),shoeMat=new THREE.MeshStandardMaterial({color:0x101722,roughness:.55});
@@ -167,7 +190,7 @@ else if(player.level===1&&player.z>-16.8&&player.z<-3.2){player.y=5.1}
 else{player.y=0;player.level=0}
 avatar.position.set(player.x,player.y,player.z);avatar.rotation.y=player.rot;
 const moving=Math.abs(forward)>0||Math.abs(strafe)>0;const swing=moving?Math.sin(elapsed*(sprint?15:10))*(sprint?.72:.48):0;limbs[0].rotation.x=swing;limbs[1].rotation.x=-swing;limbs[2].rotation.x=-swing*.7;limbs[3].rotation.x=swing*.7;torso.position.y=1.28+(moving?Math.abs(Math.sin(elapsed*(sprint?15:10)))*.035:0);
-pedestrians.forEach(p=>{const t=elapsed*p.speed+p.phase;p.g.position.x=p.homeX+Math.sin(t)*1.35;p.g.position.z=p.homeZ+Math.cos(t*.7)*1.15;p.g.rotation.y=Math.atan2(Math.cos(t)*1.35,-Math.sin(t*.7)*.805);const step=Math.sin(t*7)*.42;p.limbs[0].rotation.x=step;p.limbs[1].rotation.x=-step;p.limbs[2].rotation.x=-step*.6;p.limbs[3].rotation.x=step*.6});
+pedestrians.forEach(p=>{const t=elapsed*p.speed+p.phase;let dx=0,dz=0;if(p.role==='customer'){dx=Math.sin(t)*1.8;dz=Math.cos(t*.7)*1.5}else if(p.role==='security'){dx=Math.sin(t*.55)*4.8;dz=Math.cos(t*.42)*2.4}else{dx=Math.sin(t*.7)*.12;dz=0}p.g.position.x=p.homeX+dx;p.g.position.z=p.homeZ+dz;if(p.role!=='seller')p.g.rotation.y=Math.atan2(Math.cos(t)*1.2,-Math.sin(t*.7));const step=p.role==='seller'?Math.sin(t*1.8)*.035:Math.sin(t*7)*.42;p.limbs[0].rotation.x=step;p.limbs[1].rotation.x=-step;p.limbs[2].rotation.x=-step*.6;p.limbs[3].rotation.x=step*.6});
 nearStore=-1;let min=1e6;storeData.forEach((s,i)=>{const d=Math.hypot(player.x-s.x,player.z-s.z);if(d<min){min=d;nearStore=i}});if(min>6.2)nearStore=-1;
 document.getElementById('enterShop').style.display=nearStore>=0?'block':'none';document.getElementById('hint').textContent=nearStore>=0?'PRESS E / ENTER TO VISIT '+storeData[nearStore].name:'WALK TO EXPLORE · FIND THE STORES · USE THE DIRECTORY ANYTIME';
 document.getElementById('floor').textContent=player.level?'UPPER GALLERY · LEVEL 02':'GROUND FLOOR · ATRIUM';
